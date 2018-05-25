@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>RxJS по косточкам</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="node_modules/tinkoff-shower/theme/styles.css">
+    <link rel="stylesheet" href="custom/styles.css">
+
+    <link rel="icon" sizes="16x16" href="pictures/favicon-16x16.png">
+    <link rel="icon" sizes="32x32" href="pictures/favicon-32x32.png">
+    <link rel="icon" sizes="96x96" href="pictures/favicon-96x96.png">
+</head>
+<body class="shower list stachka">
+
+<template id="timeline-template" class="hidden">
+    <div class="timeline" style="width: 0px;"></div>
+</template>
+
+<header class="caption">
+    <h1>RxJS по косточкам</h1>
+</header>
+
+<section class="slide invert" id="cover">
+    <div class="intro">
+        <img width="300" class="intro-img" src="pictures/rxjs-logo.png" alt="RxJS">
+    </div>
+    <div class="cover-title">
+        <h2>RxJS<br>по косточкам</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Привет</h2>
+    <div class="two-columns">
+        <div>
+            <img src="pictures/author.png" width="100%" alt="">
+        </div>
+        <div>
+            <br>
+            <h2>Андрей Алексеев</h2>
+            <p class="nowrap">
+                <span class="emoji">👨‍💻</span>
+                <a href="https://www.tinkoff.ru/business/"
+                   target="_blank"
+                   rel="noopener noreferrer">Tinkoff business</a>
+            </p>
+            <p class="nowrap">
+                <span class="emoji">👨‍🏫</span>
+                <a href="https://fintech.tinkoff.ru/"
+                   target="_blank"
+                   rel="noopener noreferrer">Tinkoff Fintech School</a></p>
+        </div>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">О чем поговорим</h2>
+    <div class="slide-description">
+        <ul>
+            <li>Реактивный подход</li>
+            <li>Observable</li>
+            <li>Операторы Rx</li>
+            <li>Демо</li>
+            <li>Subjects</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Реактивный подход</h2>
+    <div class="slide-description">
+        <img class="img-boxed" width="526" src="pictures/table-1.png" alt="A1 = 1; B1 = 3; C1 = A1 + B1 = 4">
+
+        <div class="two-columns">
+            <div>
+                <p class="excel next">
+                    <code>A1 = 1; B1 = 3;</code>
+                    <br>
+                    <code>
+                        <mark>C1 = A1 + B1;</mark>
+                    </code>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Реактивный подход</h2>
+    <div class="slide-description">
+        <img class="img-boxed" width="526" src="pictures/table-1.png" alt="A1 = 1; B1 = 3; C1 = A1 + B1 = 4">
+
+        <div class="two-columns">
+            <div>
+                <p class="excel">
+                    <code>A1 = 1; B1 = 3;</code>
+                    <br>
+                    <code>C1 = A1 + B1;</code>
+                    <br>
+                    <code>
+                        <mark>C1 ~ 4;</mark>
+                    </code>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Реактивный подход</h2>
+    <div class="slide-description">
+        <img class="img-boxed" width="526" src="pictures/table-2.png" alt="A1 = 2; B1 = 3; C1 = A1 + B1 = 4">
+
+        <div class="two-columns">
+            <div>
+                <p class="excel">
+                    <code>A1 = 1; B1 = 3;</code>
+                    <br>
+                    <code>C1 = A1 + B1;</code>
+                    <br>
+                    <code>C1 ~ 4;</code>
+                </p>
+                <p class="excel">
+                    <code>
+                        <mark>A1 = 2;</mark>
+                    </code>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Реактивный подход</h2>
+    <div class="slide-description">
+        <img class="img-boxed" width="526" src="pictures/table-3.png" alt="A1 = 2; B1 = 3; C1 = A1 + B1 = 5">
+        <div class="two-columns">
+            <div>
+                <p class="excel">
+                    <code>A1 = 1; B1 = 3;</code>
+                    <br>
+                    <code>C1 = A1 + B1;</code>
+                    <br>
+                    <code>C1 ~ 4;</code>
+                </p>
+                <p class="excel">
+                    <code>A1 = 2;</code>
+                    <br>
+                    <code>
+                        <mark>C1 ~ 5;</mark>
+                    </code>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Реактивный подход</h2>
+    <div class="slide-description">
+        <div class="two-columns">
+            <div>
+                <p>
+                    <strong>Push-стратегия</strong>
+                </p>
+                <p class="excel">
+                    <code>A1 = 1; B1 = 3;</code>
+                    <br>
+                    <code>C1 = A1 + B1;</code>
+                    <br>
+                    <code>C1 ~ 4;</code>
+                </p>
+                <p class="excel">
+                    <code>A1 = 2;</code>
+                    <br>
+                    <code>C1 ~ 5;</code>
+                </p>
+            </div>
+            <div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Императивный подход</h2>
+    <div class="slide-description">
+        <div class="two-columns">
+            <div>
+                <p>
+                    <strong>Push-стратегия</strong>
+                </p>
+                <p class="excel">
+                    <code>A1 = 1; B1 = 3;</code>
+                    <br>
+                    <code>C1 = A1 + B1;</code>
+                    <br>
+                    <code>C1 ~ 4;</code>
+                </p>
+                <p class="excel">
+                    <code>A1 = 2;</code>
+                    <br>
+                    <code>C1 ~ 5;</code>
+                </p>
+            </div>
+            <div>
+                <p>
+                    <strong>Pull-статегия</strong>
+                </p>
+                <p class="excel next">
+                    <code>A1 = 1; B1 = 3;</code>
+                    <br>
+                    <code>C1 = A1 + B1;</code>
+                    <br>
+                    <code class="next">C1 ~ 4;</code>
+                </p>
+                <p class="excel next">
+                    <code>A1 = 2;</code>
+                    <br>
+                    <code class="next">
+                        <mark>C1 ~ 4;</mark>
+                    </code>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="shout">
+        Push / Pull
+    </h2>
+    <div class="notify-wrap push-pull-example next">
+        <div class="notify-baloon">
+            <div class="notify-head notify-clearfix"><a class="notify-close" role="link" title="Закрыть"
+                                                        aria-label="Закрыть">
+                <svg width="12" height="12" viewPort="0 0 12 12" version="1.1"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <line x1="1" y1="11"
+                          x2="11" y2="1"
+                          stroke="white"
+                          stroke-width="2"/>
+                    <line x1="1" y1="1"
+                          x2="11" y2="11"
+                          stroke="white"
+                          stroke-width="2"/>
+                </svg>
+
+            </a>
+                <span class="notify-title">Новое сообщение</span></div>
+            <div class="notify-body notify-clearfix">
+                <div class="notify-image-wrap"><a href="https://reactivex.io/rxjs/"><img src="pictures/rxJs.png"
+                                                                                         class="notify-image"></a></div>
+                <div class="notify-baloon-msg"><a href="https://reactivex.io/rxjs/">Реактивный подход</a>
+                    прислал Вам личное сообщение.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-container push-pull-example next">
+        <div class="modal-title-wrap">
+            <div class="modal-close" aria-label="Закрыть" tabindex="0" role="button">
+                <svg width="12" height="12" viewPort="0 0 12 12" version="1.1"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <line x1="1" y1="11"
+                          x2="11" y2="1"
+                          stroke="white"
+                          stroke-width="2"/>
+                    <line x1="1" y1="1"
+                          x2="11" y2="11"
+                          stroke="white"
+                          stroke-width="2"/>
+                </svg>
+            </div>
+            <div class="modal-title">Новое сообщение</div>
+        </div>
+        <div class="modal-body">
+            <div class="modal-user-info">
+                <div class="modal-image-wrap">
+                    <img class="modal-image"
+                         src="pictures/palpatin-50.png">
+                </div>
+                <div class="modal-user-text">
+                    <a href="#" class="modal-link">Императивный подход</a>
+                    <div class="modal-user-status"> был в докладе 1 слайд назад</div>
+                </div>
+            </div>
+            <div class="modal-msg"></div>
+            <div class="modal-controls">
+                <button class="modal-btn">Отправить</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Push value</h2>
+    <div class="slide-description">
+        <img width="800" class="img-centered" src="pictures/rx-stachka-table-1.png" alt="Единственное значение">
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Promise — асинхронное значение</h2>
+    <div class="slide-description">
+        <img width="800" class="img-centered" src="pictures/rx-stachka-table-2.png"
+             alt="Асинхронное значение — Promise">
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Множественное значение</h2>
+    <div class="slide-description">
+        <img width="800" class="img-centered" src="pictures/rx-stachka-table-3.png"
+             alt="Множественное значение">
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Iterable</h2>
+    <div class="slide-description">
+        <img width="800" class="img-centered" src="pictures/rx-stachka-table-4.png"
+             alt="Множественное значение - Iterable">
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">И множественное, и асинхронное?</h2>
+    <div class="slide-description">
+        <img width="800" class="img-centered" src="pictures/rx-stachka-table-5.png"
+             alt="Асинхронное и множественное значение">
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Observable</h2>
+    <div class="slide-description">
+        <img width="800" class="img-centered" src="pictures/rx-stachka-table-6.png"
+             alt="Observable">
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="shout shout-small">
+        Поток событий
+    </h2>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Поток событий</h2>
+    <div class="slide-description">
+        <img width="727" class="img-centered" src="pictures/rxjs-clicks-1.png" alt="Поток кликов">
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">2 часа созерцания</h2>
+    <div class="slide-description">
+        <img width="727" class="img-centered" src="pictures/rxjs-clicks-2.png" alt="Поток кликов">
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">3 часа созерцания</h2>
+    <div class="slide-description">
+        <img width="727" class="img-centered" src="pictures/rxjs-clicks-2-2.png" alt="Поток кликов">
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">4 часа созерцания</h2>
+    <div class="slide-description">
+        <img width="727" class="img-centered" src="pictures/rxjs-clicks-3.png" alt="Поток кликов">
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">4 часа и 10 секунд созерцания</h2>
+    <div class="slide-description">
+        <img width="727" class="img-centered" src="pictures/rxjs-clicks-4.png" alt="Поток кликов">
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Поток событий</h2>
+    <div class="slide-description">
+        <pre>
+            <code><mark>Rx.Observable</mark></code>
+            <code>    <mark>.from([{x: 11, y: 99}, {x: 91, y: 151}, {x: 152, y: 106}, {x: 274, y: 84}])</mark></code>
+            <code class="next">    .map((value) => { ... })</code>
+            <code class="next">    .filter((value) => { ... })</code>
+            <code class="next">    .reduce((acc, curr) => { ... })</code>
+            <div class="next">
+            <code>    .subscribe(result => {</code>
+            <code>        console.log(result);</code>
+            <code>    });</code>
+            </div>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="shout shout-small">
+        Поток событий
+        <br>~<br>
+        массив,
+        распределенный
+        во&nbsp;времени
+        <br><br>
+    </h2>
+</section>
+
+<section class="slide">
+    <h2 class="shout">
+        Observable
+        <br>
+        <small class="nowrap">Observer pattern + Iterator pattern</small>
+    </h2>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Observer pattern</h2>
+    <div class="slide-description">
+        <small>
+            <pre>
+                <code>class Subject {</code>
+                <div class="next">
+                <code>    constructor() {</code>
+                <code>        this.observers = [];</code>
+                <code>    }</code>
+                </div>
+                <code class="next">    add(observer) {...}</code>
+                <code class="next">    remove(observer) {...}</code>
+                <div class="next">
+                <code>    notify(value) {</code>
+                <code>        this.observers.forEach(observer => {</code>
+                    <code>            observer.<mark>update(value)</mark></code>
+                <code>        });</code>
+                <code>    }</code>
+                </div>
+                <code>}</code>
+            </pre>
+        </small>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Observer pattern</h2>
+    <div class="slide-description">
+        <br>
+        <img width="798" class="img-centered" src="pictures/observer-pattern.png" alt="Observer">
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Observer pattern</h2>
+    <div class="slide-description">
+        <p><strong>Субъект</strong> изменяет значения.
+            <br>
+            Также называется <strong>Observable</strong>, наблюдаемый объект.</p>
+        <p><strong>Наблюдатель (Observer)</strong> реагирует на&nbsp;изменения.</p>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Iterator pattern</h2>
+    <div class="slide-description">
+        <small>
+            <pre>
+                <code>class Iterator {</code>
+                <code>    constructor(list) {</code>
+                <code>        this.list = list;</code>
+                <code>        this.cursor = 0;</code>
+                <code>    }</code>
+                <code> </code>
+                <code class="next">    next() {...}</code>
+                <code class="next">    hasNext() {...}</code>
+                <code>}</code>
+            </pre>
+        </small>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Iterator pattern</h2>
+    <div class="slide-description">
+        <ul>
+            <li>последовательный обход составных объектов</li>
+            <li>не раскрывается внутреннее представление</li>
+        </ul>
+        <img width="798" class="img-centered" src="pictures/iterator-pattern.png" alt="Observer">
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="shout">
+        Observable
+    </h2>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Observable</h2>
+    <div class="slide-description">
+        <div class="playground" id="observableDef"></div>
+        <button class="btn btn-play" onclick="run(observableDef, this)">▶</button>
+    </div>
+    <small>
+        <pre>
+                <code>const stream$ = Rx.Observable.create((observer) => {</code>
+                <code>    observer.next(1);</code>
+                <code>    setTimeout(() => { observer.next(2);},    1000);</code>
+                <code>    setTimeout(() => { observer.next(3);},    2000);</code>
+                <code>    setTimeout(() => { observer.complete();}, 3000);</code>
+                <code>});</code>
+                <code>const subscribtion = stream$.subscribe({</code>
+                <code>    next: (value) => renderNext(value),</code>
+                <code>    error: (error) => renderError(error),</code>
+                <code>    complete: () => renderComplete()</code>
+                <code>});</code>
+        </pre>
+    </small>
+    <script>
+        function observableDef() {
+            const playgroundElement = document.getElementById('observableDef');
+            playgroundElement.innerHTML = '';
+
+            const stream$ = Rx.Observable.create((observer) => {
+                observer.next(1);
+                setTimeout(() => {
+                    observer.next(2);
+                }, 1000);
+                setTimeout(() => {
+                    observer.next(3);
+                }, 2000);
+                setTimeout(() => {
+                    observer.complete()
+                }, 3000);
+            });
+
+            startStream(playgroundElement, stream$);
+        }
+    </script>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Observable</h2>
+    <div class="slide-description">
+        <p>
+            <mark>Observable</mark>
+            – сам наблюдаемый объект, доставляет&nbsp;изменения в подписку.
+        </p>
+    </div>
+    <small>
+        <pre>
+            <code>const <mark class="highlight next">stream$</mark> = <mark>Rx.Observable.create</mark>((observer) => {...});</code>
+            <code> </code>
+            <code>const subscribtion = stream$.<mark class="highlight next">subscribe</mark>(...);</code>
+        </pre>
+    </small>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Observable</h2>
+    <div class="slide-description">
+        <p>
+            <mark>Observer</mark>
+            – объект-наблюдатель,
+            <br>
+            опциональные обработчики next/error/complete
+        </p>
+    </div>
+    <small>
+        <pre>
+            <code>const subscribtion = stream$.subscribe(</code>
+            <code>    {</code>
+            <code>        next: <mark class="next">(value) => renderNext(value),</mark></code>
+            <code>        error: <span class="next">(error) => renderError(error),</span></code>
+            <code>        complete: <mark class="next">() => renderComplete()</mark></code>
+            <code>    }</code>
+            <code>);</code>
+            <code class="next">stream$.subscribe(<mark>(value) => renderNext(value)</mark>);</code>
+            <code class="next">stream$.subscribe(<mark>renderNext</mark>);</code>
+        </pre>
+    </small>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Observable</h2>
+    <div class="slide-description">
+        <p>
+            <mark>Функция создания</mark>
+            определяет, как наблюдатель
+            будет получать значения.
+        </p>
+    </div>
+    <small>
+        <pre>
+            <code>const stream$ = Rx.Observable.create((<mark>observer</mark>) => {</code>
+            <code class="next">    <mark>observer.next(1);</mark></code>
+            <code class="next">    setTimeout(() => { <mark>observer.next(2);</mark>},    1000);</code>
+            <code class="next">    setTimeout(() => { <mark>observer.next(3);</mark>},    2000);</code>
+            <code class="next">    setTimeout(() => { <mark>observer.complete();</mark>}, 3000);</code>
+            <code>});</code>
+            <code class="next">stream$.subscribe(<mark>renderNext</mark>);</code>
+        </pre>
+    </small>
+    <div class="playground next">
+        <div class="timeline" style="width: 300.8px; color: rgb(251, 0, 13); transition-duration: 0s;">
+            <div class="entry" style="left: 0.6px;">1</div>
+            <div class="entry" style="left: 100.7px;">2</div>
+            <div class="entry" style="left: 200.7px;">3</div>
+            <div class="entry-complete" style="left: 300.7px;"></div>
+        </div>
+    </div>
+
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Observable</h2>
+    <div class="slide-description">
+        <p>
+            <mark>Subscribtion</mark>
+            – подписка. Старт получения значений.
+            <br>
+            unsubscribe – завершение получения значений.
+        </p>
+    </div>
+    <small>
+        <pre>
+            <div class="next invisible-next">
+            <code>const stream$ = Rx.Observable.create((observer) => {</code>
+            <code>    const timeout = setTimeout(() => observer.next(1), 1000);</code>
+            <code> </code>
+            <code>    <mark>return function unsubscribe()</mark> { </code>
+            <code>        clearTimeout(timeout);</code>
+            <code>    }</code>
+            <code>});</code>
+            </div>
+            <code class="after-invisible-next">const stream$ = Rx.Observable.create((observer) => {...});</code>
+            <code> </code>
+            <code>const <mark>subscribtion</mark> = stream$.subscribe(...);</code>
+            <code>subscribtion.unsubscribe();</code>
+        </pre>
+    </small>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Observable</h2>
+    <div class="slide-description">
+        <p>
+            Подписки не зависят друг от друга.
+        </p>
+    </div>
+    <small>
+        <pre>
+            <code>const stream$ = Rx.Observable.create((observer) => {...});</code>
+            <code> </code>
+            <code>const subscribtionA = stream$.subscribe(observerA);</code>
+            <code class="next">const subscribtionB = stream$.subscribe(<mark>observerBC</mark>);</code>
+            <code class="next">const subscribtionC = stream$.subscribe(<mark>observerBC</mark>);</code>
+        </pre>
+    </small>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Observable</h2>
+    <div class="slide-description">
+        <div class="playground">
+            <div class="timeline" style="width: 300.8px; color: rgb(251, 0, 13); transition-duration: 0s;">
+                <div class="entry" style="left: 0.6px;">1</div>
+                <div class="entry" style="left: 100.7px;">2</div>
+                <div class="entry" style="left: 200.7px;">3</div>
+                <div class="entry-complete" style="left: 300.7px;"></div>
+            </div>
+        </div>
+    </div>
+    <small>
+        <pre>
+                <code>const <mark class="highlight next">stream$</mark> = <mark class="highlight next">Rx.Observable.create</mark>((observer) => {</code>
+                <code>    <mark class="highlight next">observer.next(1);</mark></code>
+                <code>    setTimeout(() => { <mark class="highlight next">observer.next(2);</mark>},    1000);</code>
+                <code>    setTimeout(() => { <mark class="highlight next">observer.next(3);</mark>},    2000);</code>
+                <code>    setTimeout(() => { <mark class="highlight next">observer.complete();</mark>}, 3000);</code>
+                <code>});</code>
+                <code>const <mark class="highlight next">subscribtion</mark> = stream$.<mark class="highlight next">subscribe</mark>({</code>
+                <code>    next: <mark class="highlight next">(value) => renderNext(value)</mark>,</code>
+                <code>    error: (error) => renderError(error),</code>
+                <code>    complete: <mark class="highlight next">() => renderComplete()</mark></code>
+                <code>});</code>
+        </pre>
+    </small>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Ок, что дальше?</h2>
+    <div class="slide-description">
+        <p>Дальше — 127+ операторов. 127, Карл!</p>
+        <ul>
+            <li>cоздание</li>
+            <li>преобразование одного потока</li>
+            <li>комбинирование потоков</li>
+            <li>Observable высшего порядка</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Cоздание Observable</h2>
+    <div class="slide-description">
+        <pre>
+            <code>Rx.Observable.<mark>of('foo');</mark></code>
+            <code class="next text-muted">// ---foo---|</code>
+            <div class="next">
+            <code> </code>
+            <code>Rx.Observable.<mark>from(['foo', 'bar', 'baz']);</mark></code>
+            <code class="next text-muted">// ---foo---bar---baz---|</code>
+            </div>
+            <div class="next">
+            <code> </code>
+            <code>Rx.Observable.<mark>timer(100, 500);</mark></code>
+            <code class="next text-muted">// -0---1---2---3--...</code>
+            </div>
+        </pre>
+        </small>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Cоздание Observable</h2>
+    <div class="slide-description">
+        <pre>
+            <code>const promise = new Promise((resolve) => { resolve('foo')});</code>
+            <code>Rx.Observable.<mark>fromPromise(promise);</mark></code>
+            <code class="next text-muted">// ----------------foo---|</code>
+            <div class="next">
+            <code> </code>
+            <code>const btnElement = document.getElementById('btn');</code>
+                <code>Rx.Observable.<mark>fromEvent(btnElement, 'click');</mark></code>
+            <code class="next text-muted">// --evt-evt------evt----evt--...</code>
+            </div>
+        </pre>
+        </small>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Операторы преобразования</h2>
+    <div class="slide-description">
+        <div class="playground playground-two-streams" id="operatorsExample1"></div>
+        <button class="btn btn-play" onclick="run(operatorsExample1, this)">▶</button>
+    </div>
+    <small>
+        <pre>
+            <code>Rx.Observable.timer(0, 500)</code>
+            <code class="next">    .take(12)</code>
+            <code class="next">    .subscribe(renderNext);</code>
+            <div class="next">
+            <code> </code>
+            <code>Rx.Observable.timer(0, 500)</code>
+            <code class="next">    .take(12)</code>
+            <code class="next">    .filter(() => Math.random() < 0.3)</code>
+            <code class="next">    .subscribe(renderNext);</code>
+            </div>
+        </pre>
+    </small>
+    <script>
+        function operatorsExample1() {
+            const playgroundElement = document.getElementById('operatorsExample1');
+            playgroundElement.innerHTML = '';
+
+            const streamA$ = Rx.Observable.timer(0, 500)
+                .take(12);
+
+            const streamB$ = Rx.Observable.timer(0, 500)
+                .take(12)
+                .filter(() => Math.random() < 0.3);
+
+            startStream(playgroundElement, streamA$);
+            startStream(playgroundElement, streamB$);
+        }
+    </script>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Rx Marble Diagram</h2>
+    <div class="slide-description text-center">
+        <img class="img-boxed img-centered" style="margin-top: 50px;" width="650" src="pictures/rxmarbles-filter.png"
+             alt="Rx Marble Diagram: filter">
+        <pre class="pre-centered-big next">
+            <code>---2--30--22--5--60--1-----|</code>
+            <code>filter(x => x > 10)         </code>
+            <code>------30--22-----60--------|</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Операторы преобразования</h2>
+    <div class="slide-description">
+        <div class="playground playground-two-streams" id="operatorsExample2"></div>
+        <button class="btn btn-play" onclick="run(operatorsExample2, this)">▶</button>
+        <pre>
+            <code>Rx.Observable.timer(0, 250)</code>
+            <code>    .take(40)</code>
+            <code>    .filter(() => Math.random() < 0.3)</code>
+            <code>    <mark>.debounceTime(500)</mark></code>
+            <code>    .subscribe(renderNext);</code>
+        </pre>
+    </div>
+    <script>
+        function operatorsExample2() {
+            const playgroundElement = document.getElementById('operatorsExample2');
+            playgroundElement.innerHTML = '';
+
+            const streamA$ = Rx.Observable.timer(0, 250)
+                .take(40)
+                .filter(() => Math.random() < 0.5)
+                .share();
+
+            const streamB$ = streamA$
+                .debounceTime(500);
+
+            startStream(playgroundElement, streamA$);
+            startStream(playgroundElement, streamB$);
+        }
+    </script>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Комбинирование: merge</h2>
+    <div class="slide-description">
+        <div class="playground playground-three-streams" id="operatorMerge"></div>
+        <button class="btn btn-play" onclick="run(operatorMerge, this)">▶</button>
+        <pre>
+            <code>const streamA$ = Rx.Observable.timer(0, 1500).take(4);</code>
+            <code>const streamB$ = Rx.Observable.timer(800, 1000).take(6)</code>
+            <code>    .map((value) => 'abcdef'[value]);</code>
+            <code> </code>
+            <code>Rx.Observable.<mark>merge(streamA$, streamB$)</mark></code>
+            <code>    .subscribe(renderNext);</code>
+        </pre>
+    </div>
+    <script>
+        function operatorMerge() {
+            const playgroundElement = document.getElementById('operatorMerge');
+            playgroundElement.innerHTML = '';
+
+            const streamA$ = Rx.Observable.timer(0, 1500).take(4);
+
+            const streamB$ = Rx.Observable.timer(800, 1000).take(6)
+                .map((value) => 'abcdef'[value]);
+
+            const streamAB$ = Rx.Observable
+                .merge(streamA$, streamB$);
+
+            startStream(playgroundElement, streamA$);
+            startStream(playgroundElement, streamB$);
+            startStream(playgroundElement, streamAB$);
+        }
+    </script>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Комбинирование: combineLatest</h2>
+    <div class="slide-description">
+        <div class="playground playground-three-streams" id="operatorCombineLatest"></div>
+        <button class="btn btn-play" onclick="run(operatorCombineLatest, this)">▶</button>
+        <pre>
+            <code>const streamA$ = Rx.Observable.timer(0, 1500).take(4);</code>
+            <code>const streamB$ = Rx.Observable.timer(800, 1000).take(6)</code>
+            <code>    .map((value) => 'abcdef'[value]);</code>
+            <code> </code>
+            <code>Rx.Observable.<mark>combineLatest(streamA$, streamB$)</mark></code>
+            <code>    .map(([a, b]) => a + b)</code>
+            <code>    .subscribe(renderNext);</code>
+        </pre>
+    </div>
+    <script>
+        function operatorCombineLatest() {
+            const playgroundElement = document.getElementById('operatorCombineLatest');
+            playgroundElement.innerHTML = '';
+
+            const streamA$ = Rx.Observable.timer(0, 1500)
+                .take(4);
+
+            const streamB$ = Rx.Observable.timer(800, 1000)
+                .map((value) => 'abcdef'[value])
+                .take(6);
+
+            const streamAB$ = Rx.Observable
+                .combineLatest(streamA$, streamB$)
+                .map(([a, b]) => a + b);
+
+            startStream(playgroundElement, streamA$);
+            startStream(playgroundElement, streamB$);
+            startStream(playgroundElement, streamAB$);
+        }
+    </script>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Операторы высшего порядка: mergeMap</h2>
+    <div class="slide-description">
+        <div class="playground playground-two-streams" id="operatorMergeMap"></div>
+        <button class="btn btn-play" onclick="run(operatorMergeMap, this)">▶</button>
+        <pre>
+            <code>Rx.Observable.timer(0, 1500)</code>
+            <code>    .take(3)</code>
+            <code>    .map((value) => 'abcd'[value])</code>
+            <div class="next">
+            <code>    .<mark>mergeMap</mark>(value => {</code>
+            <div class="next">
+            <code>        return Rx.Observable.timer(0, 450).take(6)</code>
+            <code>            .map(innerValue => value + innerValue);</code>
+            </div>
+            <code>    })</code>
+            <code>    .subscribe(renderNext);</code>
+            </div>
+        </pre>
+    </div>
+    <script>
+        function operatorMergeMap() {
+            const playgroundElement = document.getElementById('operatorMergeMap');
+            playgroundElement.innerHTML = '';
+
+            const streamA$ = Rx.Observable.timer(0, 1500).take(3)
+                .map((value) => 'abcd'[value]);
+
+            const streamB$ = streamA$
+                .mergeMap(value => {
+                    return Rx.Observable.timer(0, 450).take(6)
+                        .map(innerValue => value + innerValue);
+                });
+
+            startStream(playgroundElement, streamA$);
+            startStream(playgroundElement, streamB$);
+        }
+    </script>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Операторы высшего порядка: switchMap</h2>
+    <div class="slide-description">
+        <div class="playground playground-two-streams" id="operatorSwitchMap"></div>
+        <button class="btn btn-play" onclick="run(operatorSwitchMap, this)">▶</button>
+    </div>
+    <small>
+        <pre>
+            <code>Rx.Observable.timer(0, 1500)</code>
+            <code>    .take(3)</code>
+            <code>    .map((value) => 'abcd'[value])</code>
+            <code>    <mark>.switchMap</mark>(value => {</code>
+            <code>        return Rx.Observable.timer(0, 450).take(6)</code>
+            <code>            .map(innerValue => value + innerValue);</code>
+            <code>    })</code>
+            <code>    .subscribe(renderNext);</code>
+        </pre>
+    </small>
+    <script>
+        function operatorSwitchMap() {
+            const playgroundElement = document.getElementById('operatorSwitchMap');
+            playgroundElement.innerHTML = '';
+
+            const streamA$ = Rx.Observable.timer(0, 1500).take(3)
+                .map((value) => 'abcd'[value]);
+
+            const streamB$ = streamA$
+                .switchMap(value => {
+                    return Rx.Observable.timer(0, 450).take(6)
+                        .map(innerValue => value + innerValue);
+                });
+
+            startStream(playgroundElement, streamA$);
+            startStream(playgroundElement, streamB$);
+        }
+    </script>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Rx Marble Diagram</h2>
+    <div class="slide-description text-center">
+        <img class="img-boxed img-centered"
+             style="margin-top: 50px;"
+             width="700"
+             src="pictures/rxmarbles-switch-map.png"
+             alt="Rx Marble Diagram: switchMap">
+    </div>
+</section>
+
+
+<section class="slide">
+    <h2 class="shout">
+        SwitchMap<br>
+        <small>is the new black</small>
+    </h2>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Promise <--> Observable</h2>
+    <div class="slide-description">
+        <div class="playground playground-clock" id="promiseObservable"></div>
+        <button class="btn btn-play" onclick="run(promiseObservable, this)">▶</button>
+        <pre>
+            <code>const getPromise = (value, time) => new Promise((resolve) => {</code>
+            <code>    setTimeout(() => {</code>
+            <code>        resolve(value);</code>
+            <code>    }, time);</code>
+            <code>});</code>
+            <code> </code>
+            <div class="next">
+            <code>Rx.Observable.<mark>fromPromise(getPromise('⏰', 1500))</mark></code>
+            <code>    .subscribe(renderNext);</code>
+            </div>
+        </pre>
+    </div>
+    <script>
+        function promiseObservable() {
+            const playgroundElement = document.getElementById('promiseObservable');
+            playgroundElement.innerHTML = '';
+
+            const getPromise = (value, time) => new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(value);
+                }, time);
+            });
+
+            const stream$ = Rx.Observable.fromPromise(getPromise('⏰', 1500));
+
+            startStream(playgroundElement, stream$);
+        }
+    </script>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">SwitchMap + Promise</h2>
+    <div class="slide-description">
+        <div class="playground playground-two-streams" id="promiseSwitchMap"></div>
+        <button class="btn btn-play" onclick="run(promiseSwitchMap, this)">▶</button>
+    </div>
+    <small>
+        <pre>
+            <code>const streamA$ = Rx.Observable.create((observer) => {</code>
+            <code>    observer.<mark class="next highlight">next(1);</mark></code>
+            <code>    setTimeout(() => { observer.next(2);}, <mark class="next highlight">2000</mark>);</code>
+            <code>    setTimeout(() => { observer.next(3);}, <mark class="next highlight">3000</mark>);</code>
+            <code>    setTimeout(() => { observer.complete()}, <mark class="next highlight">4000</mark>);</code>
+            <code>})</code>
+            <code>const streamB$ = streamA$</code>
+            <code>    <mark class="next highlight">.switchMap((value) => getPromise(value, 1500));</mark></code>
+        </pre>
+    </small>
+    <script>
+        function promiseSwitchMap() {
+            const playgroundElement = document.getElementById('promiseSwitchMap');
+            playgroundElement.innerHTML = '';
+
+            const getPromise = (value, time) => new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(value);
+                }, time);
+            });
+
+            const streamA$ = Rx.Observable.create((observer) => {
+                observer.next(1);
+                setTimeout(() => {
+                    observer.next(2);
+                }, 2000);
+                setTimeout(() => {
+                    observer.next(3);
+                }, 3000);
+                setTimeout(() => {
+                    observer.complete()
+                }, 4000);
+            })
+
+            const streamB$ = streamA$
+                .switchMap((value) => getPromise(value, 1500));
+
+            startStream(playgroundElement, streamA$);
+            startStream(playgroundElement, streamB$);
+        }
+    </script>
+</section>
+
+
+<section class="slide">
+    <h2 class="slide-header">SwitchMap и отписки</h2>
+    <div class="slide-description">
+        <p><strong>SwitchMap</strong> автоматически отписывает внутренний поток — вызывает subscription.unsubscribe()
+        </p>
+        <p class="next">Можем написать отменяемые запросы:</p>
+        <ul>
+            <li class="next">Angular HttpClient</li>
+            <li class="next">Fetch + AbortController</li>
+            <li class="next">XMLHttpRequest -> xhr.abort()</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Пример: отменяемый fetch</h2>
+    <div class="slide-description">
+        <pre>
+            <code>const request$ = Rx.Observable.create((observer) => {</code>
+            <div class="next">
+            <code>    const controller = <mark>new AbortController();</mark></code>
+            <code>    const signal = controller.signal;</code>
+            </div>
+            <div class="next">
+            <code> </code>
+            <code>    fetch(url, <mark>{signal}</mark>).then(res => res.json())</code>
+            </div>
+            <div class="next">
+            <code>        .then(data => {</code>
+            <code>                observer.next(data);</code>
+            <code>                observer.complete();</code>
+            <code>            });</code>
+            </div>
+            <div class="next">
+            <code> </code>
+            <code>    <mark>return function unsubscribe() {</mark></code>
+            <code>        <mark>controller.abort();</mark></code>
+            <code>    <mark>};</mark></code>
+            </div>
+            <code>});</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">SwitchMap и запросы</h2>
+    <div class="slide-description">
+        <br>
+        <img class="img-boxed img-centered" width="650" src="pictures/fetch-cancel.png" alt="Отмена fetch-запросов">
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="shout">
+        ДЕМО
+    </h2>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Демо — поиск</h2>
+    <div class="slide-description">
+        <img class="img-boxed img-centered" width="750" src="pictures/demo-2.gif" alt="демо">
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Демо: поток ввода</h2>
+    <div class="slide-search">
+        <pre class="search-code">
+            <code>Rx.Observable</code>
+            <code>    .fromEvent(inputElement, 'input')</code>
+            <code class="next">    .map((event) => event.target.value)</code>
+            <code class="next">    .subscribe(logToOutput)</code>
+        </pre>
+        <div class="search-playground" id="searchDemo1">
+            <input type="text" class="search-input" onfocus="searchDemo1()">
+            <div class="search-output">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function searchDemo1() {
+            const playgroundElement = document.getElementById('searchDemo1');
+            const inputElement = playgroundElement.querySelector('.search-input');
+            const outputElement = playgroundElement.querySelector('.search-output');
+            const onHashChange$ = Rx.Observable.fromEvent(window, 'hashchange').take(1);
+            const blur$ = Rx.Observable.fromEvent(inputElement, 'blur').take(1);
+
+            return Rx.Observable.fromEvent(inputElement, 'input')
+                .map((event) => event.target.value)
+                .takeUntil(onHashChange$)
+                .takeUntil(blur$)
+                .subscribe({
+                    next: (value) => logToOutput(outputElement, value),
+                    complete: () => {
+                        inputElement.value = '';
+                        outputElement.innerHTML = ''
+                    }
+                });
+        }
+    </script>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Демо: дебаунс</h2>
+    <div class="slide-search">
+        <pre class="search-code">
+            <code>Rx.Observable</code>
+            <code>    .fromEvent(inputElement, 'input')</code>
+            <code>    .map((event) => event.target.value)</code>
+            <code>    <mark>.debounceTime(500)</mark></code>
+            <code>    .subscribe(logToOutput)</code>
+        </pre>
+        <div class="search-playground" id="searchDemo3">
+            <input type="text" class="search-input" onfocus="searchDemo3()">
+            <div class="search-output">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function searchDemo3() {
+            const playgroundElement = document.getElementById('searchDemo3');
+            const inputElement = playgroundElement.querySelector('.search-input');
+            const outputElement = playgroundElement.querySelector('.search-output');
+            const onHashChange$ = Rx.Observable.fromEvent(window, 'hashchange').take(1);
+            const blur$ = Rx.Observable.fromEvent(inputElement, 'blur').take(1);
+
+            return Rx.Observable.fromEvent(inputElement, 'input')
+                .map((event) => event.target.value)
+                .debounceTime(500)
+                .takeUntil(onHashChange$)
+                .takeUntil(blur$)
+                .subscribe({
+                    next: (value) => logToOutput(outputElement, value),
+                    complete: () => {
+                        inputElement.value = '';
+                        outputElement.innerHTML = ''
+                    }
+                });
+        }
+    </script>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Демо: фильтрация совпадений</h2>
+    <div class="slide-search">
+        <pre class="search-code">
+            <code>Rx.Observable</code>
+            <code>    .fromEvent(inputElement, 'input')</code>
+            <code>    .map((event) => event.target.value)</code>
+            <code>    .debounceTime(500)</code>
+            <code>    <mark>.distinctUntilChanged()</mark></code>
+            <code>    .subscribe(logToOutput)</code>
+        </pre>
+        <div class="search-playground" id="searchDemo4">
+            <input type="text" class="search-input" onfocus="searchDemo4()">
+            <div class="search-output">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function searchDemo4() {
+            const playgroundElement = document.getElementById('searchDemo4');
+            const inputElement = playgroundElement.querySelector('.search-input');
+            const outputElement = playgroundElement.querySelector('.search-output');
+            const onHashChange$ = Rx.Observable.fromEvent(window, 'hashchange').take(1);
+            const blur$ = Rx.Observable.fromEvent(inputElement, 'blur').take(1);
+
+            return Rx.Observable.fromEvent(inputElement, 'input')
+                .map((event) => event.target.value)
+                .debounceTime(500)
+                .distinctUntilChanged()
+                .takeUntil(onHashChange$)
+                .takeUntil(blur$)
+                .subscribe({
+                    next: (value) => logToOutput(outputElement, value),
+                    complete: () => {
+                        inputElement.value = '';
+                        outputElement.innerHTML = ''
+                    }
+                });
+        }
+    </script>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Демо: запрос данных</h2>
+    <div class="slide-search">
+        <pre class="search-code">
+            <code>Rx.Observable</code>
+            <code>    .fromEvent(inputElement, 'input')</code>
+            <code>    .map((event) => event.target.value)</code>
+            <code>    .debounceTime(500)</code>
+            <code>    .distinctUntilChanged()</code>
+            <code>    <mark>.switchMap(query => fetchData(query))</mark></code>
+            <code>    .subscribe(logToOutput)</code>
+        </pre>
+        <div class="search-playground" id="searchDemo5">
+            <input type="text" class="search-input" onfocus="searchDemo5()">
+            <div class="search-output">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function searchDemo5() {
+            const playgroundElement = document.getElementById('searchDemo5');
+            const inputElement = playgroundElement.querySelector('.search-input');
+            const outputElement = playgroundElement.querySelector('.search-output');
+            const onHashChange$ = Rx.Observable.fromEvent(window, 'hashchange').take(1);
+            const blur$ = Rx.Observable.fromEvent(inputElement, 'blur').take(1);
+
+            return Rx.Observable.fromEvent(inputElement, 'input')
+                .map((event) => event.target.value)
+                .debounceTime(300)
+                .distinctUntilChanged()
+                .switchMap(value => fetchData(value))
+                .takeUntil(onHashChange$)
+                .takeUntil(blur$)
+                .subscribe({
+                    next: (items) => logAllToOutput(outputElement, items),
+                    complete: () => {
+                        inputElement.value = '';
+                        outputElement.innerHTML = ''
+                    }
+                });
+        }
+    </script>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Демо: лоадер</h2>
+    <div class="slide-search">
+        <pre class="search-code">
+            <code>Rx.Observable</code>
+            <code>    .fromEvent(inputElement, 'input')</code>
+            <code>    .map((event) => event.target.value)</code>
+            <code>    .debounceTime(500)</code>
+            <code>    .distinctUntilChanged()</code>
+            <code>    <mark>.do(() => setLoading(true))</mark></code>
+            <code>    .switchMap(value => fetchData(value))</code>
+            <code>    <mark>.do(() => setLoading(false))</mark></code>
+            <code>    .subscribe(logToOutput)</code>
+        </pre>
+        <div class="search-playground" id="searchDemo6">
+            <input type="text" class="search-input" onfocus="searchDemo6()">
+            <div class="search-output">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function searchDemo6() {
+            const playgroundElement = document.getElementById('searchDemo6');
+            const inputElement = playgroundElement.querySelector('.search-input');
+            const outputElement = playgroundElement.querySelector('.search-output');
+            const onHashChange$ = Rx.Observable.fromEvent(window, 'hashchange').take(1);
+            const blur$ = Rx.Observable.fromEvent(inputElement, 'blur').take(1);
+
+            const setLoading = (flag) => {
+                outputElement.classList.toggle('search-loading', flag);
+            }
+
+            return Rx.Observable.fromEvent(inputElement, 'input')
+                .do(() => {
+                    outputElement.innerHTML = ''
+                })
+                .map((event) => event.target.value)
+                .debounceTime(300)
+                .distinctUntilChanged()
+                .do(() => setLoading(true))
+                .switchMap(value => fetchData(value))
+                .do(() => setLoading(false))
+                .takeUntil(onHashChange$)
+                .takeUntil(blur$)
+                .subscribe({
+                    next: (items) => logAllToOutput(outputElement, items),
+                    complete: () => {
+                        inputElement.value = '';
+                        outputElement.innerHTML = ''
+                    }
+                });
+        }
+    </script>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Демо: результаты</h2>
+    <div class="slide-search">
+        <pre class="search-code">
+            <code>Rx.Observable</code>
+            <code>    .fromEvent(inputElement, 'input')</code>
+            <code>    .map((event) => event.target.value)</code>
+            <code>    .debounceTime(500)</code>
+            <code>    .distinctUntilChanged()</code>
+            <code>    .do(() => setLoading(true))</code>
+            <code>    .switchMap(value => fetchData(value))</code>
+            <code>    .do(() => setLoading(false))</code>
+            <code>    .subscribe(logToOutput)</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Демо: результаты</h2>
+    <div class="slide-description">
+        <ul>
+            <li>видна вся последовательность обработки</li>
+            <li>минимум сайд эффектов</li>
+            <li>самодостаточный компонент</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="shout">
+        SUBJECTS
+    </h2>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">1 подписка - 1 поток значений</h2>
+    <div class="slide-description">
+        <div class="playground playground-three-streams" id="observableMultiSubs"></div>
+        <button class="btn btn-play" onclick="run(observableMultiSubs, this)">▶</button>
+    </div>
+    <small>
+        <pre>
+                <code>const stream$ = Rx.Observable.interval(500)</code>
+                <code>    .take(5)</code>
+                <code>    .map(() => random());</code>
+                <code class="next">stream$.subscribe(/* ... */);</code>
+                <code class="next">stream$.subscribe(/* ... */);</code>
+                <div class="next">
+                <code>setTimeout(() => {</code>
+                <code>    stream$.subscribe(/* ... */);</code>
+                <code>}, 800);</code>
+                </div>
+        </pre>
+    </small>
+    <script>
+        function observableMultiSubs() {
+            const playgroundElement = document.getElementById('observableMultiSubs');
+            playgroundElement.innerHTML = '';
+
+            const stream$ = Rx.Observable.interval(TICK_MS)
+                .take(5)
+                .map(() => Math.random().toString().substr(2, 2));
+
+            startStream(playgroundElement, stream$);
+            startStream(playgroundElement, stream$);
+            startStream(playgroundElement, stream$, 800);
+        }
+    </script>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Subject</h2>
+    <div class="slide-description">
+        <p>Объединение Observable и Observer. Передает значение всем подписчикам</p>
+    </div>
+    <div class="relative-container">
+        <small>
+            <pre>
+                <code>const subject = new Rx.Subject();</code>
+                <code> </code>
+                <code>subject.next(0);</code>
+                <code>setTimeout(() => subject.next(1), 1000);</code>
+                <code>setTimeout(() => subject.next(2), 2000);</code>
+                <code>setTimeout(() => subject.next(3), 3000);</code>
+                <code>setTimeout(() => subject.next(4), 4000);</code>
+                <code>setTimeout(() => subject.complete(), 5000);</code>
+            </pre>
+        </small>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Subject</h2>
+    <div class="slide-description">
+        <div class="playground playground-three-streams" id="subjectIntro"></div>
+        <button class="btn btn-play" onclick="run(subjectIntro, this)">▶</button>
+    </div>
+    <div class="relative-container">
+        <small>
+        <pre>
+                <code>const subject = new Rx.Subject();</code>
+                <code>setSubjectTick(subject);</code>
+                <code>&nbsp;</code>
+                <code>subject.subscribe();</code>
+                <code>setTimeout(() => subject.subscribe(/* ... */), 1500);</code>
+                <code>setTimeout(() => subject.subscribe(/* ... */), 2500);</code>
+        </pre>
+        </small>
+    </div>
+    <script>
+        function subjectIntro() {
+            const playgroundElement = document.getElementById('subjectIntro');
+            playgroundElement.innerHTML = '';
+
+            const subject = new Rx.Subject();
+            setSubjectTick1(subject);
+
+            startStream(playgroundElement, subject);
+            startStream(playgroundElement, subject, 1500);
+            startStream(playgroundElement, subject, 2500);
+        }
+    </script>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Разновидности Subject</h2>
+    <ol>
+        <li>Subject</li>
+        <li class="next">BehaviorSubject(value)</li>
+        <li class="next">ReplaySubject(buffer)</li>
+        <li class="next">AsyncSubject()</li>
+    </ol>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Пример - автоотписка</h2>
+    <div class="slide-description">
+        <pre>
+            <code>const subscription = streamA$</code>
+            <code>    .map(...)</code>
+            <code>    .switchMap(...)</code>
+            <code>    .subscribe(...);</code>
+            <div class="next">
+            <code>...</code>
+            <code>onDestroy() {</code>
+            <code>    subscription.<mark>unsubscribe();</mark></code>
+            <code>}</code>
+            </div>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Пример - автоотписка</h2>
+    <div class="slide-description">
+        <pre>
+            <code>const destroyStream = new Subject();</code>
+            <div class="next">
+            <code>streamA$</code>
+            <code>    .map(...)</code>
+            <code>    .switchMap(...)</code>
+            <code>    .takeUntil(<mark>destroyStream</mark>)</code>
+            <code>    .subscribe()</code>
+            <code>...</code>
+            </div>
+            <div class="next">
+            <code>onDestroy() {</code>
+            <code>    destroyStream.next();</code>
+            <code>}</code>
+            </div>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Пример - авторизация</h2>
+    <div class="slide-description">
+        <pre>
+            <code>@Injectable()</code>
+            <code>export class StateService {</code>
+            <code>  private <mark>authSubject</mark> = new BehaviorSubject&lt;boolean&gt;(false);</code>
+            <div class="next">
+            <code> </code>
+            <code>  setAuthState(<mark class="highlight next">state</mark>: boolean) {</code>
+                <code>    this.authSubject.<mark class="highlight next">next(state)</mark>;</code>
+            <code>  }</code>
+            </div>
+            <code>}</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Пример - авторизация</h2>
+    <div class="slide-description">
+        <pre>
+            <code>@Injectable()</code>
+            <code>export class StateService {</code>
+            <code>  private <mark>authSubject</mark> = new BehaviorSubject&lt;boolean&gt;(false);</code>
+            <code>  setAuthState(state: boolean) {...}</code>
+            <div class="next">
+            <code> </code>
+            <code>  getStateChange(): Observable&lt;AuthState&gt; {</code>
+            <code>    return this.authSubject.<mark class="highlight next">asObservable()</mark>;</code>
+            <code>  }</code>
+            </div>
+            <code>}</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Пример - авторизация</h2>
+    <div class="slide-description">
+        <pre>
+            <code>@Injectable()</code>
+            <code>export class StateService {</code>
+            <code>  private <mark>authSubject</mark> = new BehaviorSubject&lt;boolean&gt;(false);</code>
+            <code>  setAuthState(state: boolean) {...}</code>
+            <code>  getStateChange(): Observable&lt;AuthState&gt; {...}</code>
+            <code> </code>
+            <div class="next">
+            <code>  getCurrentState(): boolean {</code>
+            <code>    return this.authSubject.<mark class="highlight next">getValue()</mark>;</code>
+            <code>  }</code>
+            </div>
+            <code>}</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Пример - кеширование</h2>
+    <div class="slide-description">
+        <pre>
+            <code>let cachingSubject;</code>
+            <code> </code>
+            <code>getResource() {</code>
+            <div class="next">
+            <code>    if (!cachingSubject) {</code>
+            <div class="next">
+            <code>      cachingSubject = new ReplaySubject(1);</code>
+            </div>
+            <div class="next">
+            <code> </code>
+            <code>      loadData().<mark class="highlight next">subscribe</mark>((result) => {</code>
+            <code>          this.cachingSubject.<mark class="highlight next">next(result);</mark></code>
+            <code>        });</code>
+            </div>
+            <code>    }</code>
+            </div>
+            <div class="next">
+            <code> </code>
+            <code>    return this.cachingSubject.asObservable();</code>
+            </div>
+            <code>}</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Итоги</h2>
+    <div class="slide-description">
+        <ul>
+            <li>Push / pull</li>
+            <li class="next">Observable = Observer + Iterator</li>
+            <li class="next">Observable - паттерн для работы с потоками данных</li>
+            <li class="next">Операторы: преобразования, комбинирования потоков</li>
+            <li class="next">Observable высшего порядка</li>
+            <li class="next">Как сделать отменяемые запросы</li>
+            <li class="next">Поле поиска через цепочку операторов</li>
+            <li class="next">Subjects – один поток на множество подписчиков</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <h2 class="slide-header">Спасибо!</h2>
+    <h2><a href="https://github.com/aalexeev239/rxjs-intro"
+           target="_blank" rel="noopener noreferrer">github.com/aalexeev239/rxjs-intro</a>
+    </h2>
+    <h2><a href="goo.gl/fdh1rh"
+           target="_blank" rel="noopener noreferrer">goo.gl/fdh1rh</a></h2>
+    <img width="320" src="pictures/rxjs-intro.gif" alt="https://github.com/aalexeev239/rxjs-intro">
+</section>
+
+<footer class="badge">
+    <a href="https://github.com/aalexeev239/rxjs-intro">GitHub</a>
+</footer>
+
+<div class="progress"></div>
+
+<script src="node_modules/shower-core/shower.min.js"></script>
+<script src="node_modules/rxjs/bundles/Rx.min.js"></script>
+<script src="custom/scripts.js"></script>
+<!-- Copyright © 2018 Andrey Alexeev -->
+</body>
+</html>
