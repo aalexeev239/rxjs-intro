@@ -1,9 +1,9 @@
 {
-  "name": "rxjs-stachka-talk",
-  "description": "RxJS talk on Stachka conf 2018",
+  "name": "rxjs-intro-talk",
+  "description": "RxJS intro",
   "version": "0.0.1",
   "author": {
-    "name": "Amdrey Alexeev",
+    "name": "Andrey Alexeev",
     "url": "http://aalexeev.ru"
   },
   "dependencies": {
@@ -17,6 +17,7 @@
     "del": "^3.0.0",
     "fs": "0.0.2",
     "gulp": "^3.9.1",
+    "gulp-better-rollup": "^3.3.0",
     "gulp-gh-pages": "^0.5.4",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.6.1",
@@ -24,6 +25,7 @@
     "gulp-zip": "^4.0.0",
     "merge-stream": "^1.0.0",
     "path-exists-cli": "^1.0.0",
+    "rollup-plugin-node-resolve": "^3.3.0",
     "run-sequence": "^2.1.0"
   },
   "scripts": {

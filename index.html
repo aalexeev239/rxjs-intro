@@ -509,7 +509,7 @@
     </div>
     <small>
         <pre>
-                <code>const stream$ = Rx.Observable.create((observer) => {</code>
+                <code>const stream$ = rxjs.Observable.create((observer) => {</code>
                 <code>    observer.next(1);</code>
                 <code>    setTimeout(() => { observer.next(2);},    1000);</code>
                 <code>    setTimeout(() => { observer.next(3);},    2000);</code>
@@ -527,7 +527,7 @@
             const playgroundElement = document.getElementById('observableDef');
             playgroundElement.innerHTML = '';
 
-            const stream$ = Rx.Observable.create((observer) => {
+            const stream$ = rxjs.Observable.create((observer) => {
                 observer.next(1);
                 setTimeout(() => {
                     observer.next(2);
@@ -555,7 +555,7 @@
     </div>
     <small>
         <pre>
-            <code>const <mark class="highlight next">stream$</mark> = <mark>Rx.Observable.create</mark>((observer) => {...});</code>
+            <code>const <mark class="highlight next">stream$</mark> = <mark>rxjs.Observable.create</mark>((observer) => {...});</code>
             <code> </code>
             <code>const subscribtion = stream$.<mark class="highlight next">subscribe</mark>(...);</code>
         </pre>
@@ -598,7 +598,7 @@
     </div>
     <small>
         <pre>
-            <code>const stream$ = Rx.Observable.create((<mark>observer</mark>) => {</code>
+            <code>const stream$ = rxjs.Observable.create((<mark>observer</mark>) => {</code>
             <code class="next">    <mark>observer.next(1);</mark></code>
             <code class="next">    setTimeout(() => { <mark>observer.next(2);</mark>},    1000);</code>
             <code class="next">    setTimeout(() => { <mark>observer.next(3);</mark>},    2000);</code>
@@ -631,7 +631,7 @@
     <small>
         <pre>
             <div class="next invisible-next">
-            <code>const stream$ = Rx.Observable.create((observer) => {</code>
+            <code>const stream$ = rxjs.Observable.create((observer) => {</code>
             <code>    const timeout = setTimeout(() => observer.next(1), 1000);</code>
             <code> </code>
             <code>    <mark>return function unsubscribe()</mark> { </code>
@@ -639,7 +639,7 @@
             <code>    }</code>
             <code>});</code>
             </div>
-            <code class="after-invisible-next">const stream$ = Rx.Observable.create((observer) => {...});</code>
+            <code class="after-invisible-next">const stream$ = rxjs.Observable.create((observer) => {...});</code>
             <code> </code>
             <code>const <mark>subscribtion</mark> = stream$.subscribe(...);</code>
             <code>subscribtion.unsubscribe();</code>
@@ -656,7 +656,7 @@
     </div>
     <small>
         <pre>
-            <code>const stream$ = Rx.Observable.create((observer) => {...});</code>
+            <code>const stream$ = rxjs.Observable.create((observer) => {...});</code>
             <code> </code>
             <code>const subscribtionA = stream$.subscribe(observerA);</code>
             <code class="next">const subscribtionB = stream$.subscribe(<mark>observerBC</mark>);</code>
@@ -679,7 +679,7 @@
     </div>
     <small>
         <pre>
-                <code>const <mark class="highlight next">stream$</mark> = <mark class="highlight next">Rx.Observable.create</mark>((observer) => {</code>
+                <code>const <mark class="highlight next">stream$</mark> = <mark class="highlight next">rxjs.Observable.create</mark>((observer) => {</code>
                 <code>    <mark class="highlight next">observer.next(1);</mark></code>
                 <code>    setTimeout(() => { <mark class="highlight next">observer.next(2);</mark>},    1000);</code>
                 <code>    setTimeout(() => { <mark class="highlight next">observer.next(3);</mark>},    2000);</code>
@@ -771,12 +771,16 @@
             const playgroundElement = document.getElementById('operatorsExample1');
             playgroundElement.innerHTML = '';
 
-            const streamA$ = Rx.Observable.timer(0, 500)
-                .take(12);
+            const streamA$ = rxjs.timer(0, 500)
+                .pipe(
+                    rxjs.operators.take(12)
+                );
 
-            const streamB$ = Rx.Observable.timer(0, 500)
-                .take(12)
-                .filter(() => Math.random() < 0.3);
+            const streamB$ = rxjs.timer(0, 500)
+                .pipe(
+                    rxjs.operators.take(12),
+                    rxjs.operators.filter(() => Math.random() < 0.3)
+                );
 
             startStream(playgroundElement, streamA$);
             startStream(playgroundElement, streamB$);
@@ -815,13 +819,17 @@
             const playgroundElement = document.getElementById('operatorsExample2');
             playgroundElement.innerHTML = '';
 
-            const streamA$ = Rx.Observable.timer(0, 250)
-                .take(40)
-                .filter(() => Math.random() < 0.5)
-                .share();
+            const streamA$ = rxjs.timer(0, 250)
+                .pipe(
+                    rxjs.operators.take(40),
+                    rxjs.operators.filter(() => Math.random() < 0.3),
+                    rxjs.operators.share()
+                );
 
             const streamB$ = streamA$
-                .debounceTime(500);
+                .pipe(
+                    rxjs.operators.debounceTime(500)
+                );
 
             startStream(playgroundElement, streamA$);
             startStream(playgroundElement, streamB$);
@@ -848,13 +856,18 @@
             const playgroundElement = document.getElementById('operatorMerge');
             playgroundElement.innerHTML = '';
 
-            const streamA$ = Rx.Observable.timer(0, 1500).take(4);
+            const streamA$ = rxjs.timer(0, 1500)
+                .pipe(
+                    rxjs.operators.take(4)
+                );
 
-            const streamB$ = Rx.Observable.timer(800, 1000).take(6)
-                .map((value) => 'abcdef'[value]);
+            const streamB$ = rxjs.timer(800, 1000)
+                .pipe(
+                    rxjs.operators.take(6),
+                    rxjs.operators.map((value) => 'abcdef'[value])
+                );
 
-            const streamAB$ = Rx.Observable
-                .merge(streamA$, streamB$);
+            const streamAB$ = rxjs.merge(streamA$, streamB$);
 
             startStream(playgroundElement, streamA$);
             startStream(playgroundElement, streamB$);
@@ -883,16 +896,21 @@
             const playgroundElement = document.getElementById('operatorCombineLatest');
             playgroundElement.innerHTML = '';
 
-            const streamA$ = Rx.Observable.timer(0, 1500)
-                .take(4);
+            const streamA$ = rxjs.timer(0, 1500)
+                .pipe(
+                    rxjs.operators.take(4)
+                );
 
-            const streamB$ = Rx.Observable.timer(800, 1000)
-                .map((value) => 'abcdef'[value])
-                .take(6);
+            const streamB$ = rxjs.timer(800, 1000)
+                .pipe(
+                    rxjs.operators.map((value) => 'abcdef'[value]),
+                    rxjs.operators.take(6)
+                );
 
-            const streamAB$ = Rx.Observable
-                .combineLatest(streamA$, streamB$)
-                .map(([a, b]) => a + b);
+            const streamAB$ = rxjs.combineLatest(streamA$, streamB$)
+                .pipe(
+                    rxjs.operators.map(([a, b]) => a + b)
+                );
 
             startStream(playgroundElement, streamA$);
             startStream(playgroundElement, streamB$);
@@ -926,14 +944,22 @@
             const playgroundElement = document.getElementById('operatorMergeMap');
             playgroundElement.innerHTML = '';
 
-            const streamA$ = Rx.Observable.timer(0, 1500).take(3)
-                .map((value) => 'abcd'[value]);
+            const streamA$ = rxjs.timer(0, 1500)
+                .pipe(
+                    rxjs.operators.take(3),
+                    rxjs.operators.map((value) => 'abcd'[value])
+                );
 
             const streamB$ = streamA$
-                .mergeMap(value => {
-                    return Rx.Observable.timer(0, 450).take(6)
-                        .map(innerValue => value + innerValue);
-                });
+                .pipe(
+                    rxjs.operators.mergeMap(value => {
+                        return rxjs.timer(0, 450)
+                            .pipe(
+                                rxjs.operators.take(6),
+                                rxjs.operators.map(innerValue => value + innerValue)
+                            );
+                    })
+                );
 
             startStream(playgroundElement, streamA$);
             startStream(playgroundElement, streamB$);
@@ -964,14 +990,22 @@
             const playgroundElement = document.getElementById('operatorSwitchMap');
             playgroundElement.innerHTML = '';
 
-            const streamA$ = Rx.Observable.timer(0, 1500).take(3)
-                .map((value) => 'abcd'[value]);
+            const streamA$ = rxjs.timer(0, 1500)
+                .pipe(
+                    rxjs.operators.take(3),
+                    rxjs.operators.map((value) => 'abcd'[value])
+                );
 
             const streamB$ = streamA$
-                .switchMap(value => {
-                    return Rx.Observable.timer(0, 450).take(6)
-                        .map(innerValue => value + innerValue);
-                });
+                .pipe(
+                    rxjs.operators.switchMap(value => {
+                        return rxjs.timer(0, 450)
+                            .pipe(
+                                rxjs.operators.take(6),
+                                rxjs.operators.map(innerValue => value + innerValue)
+                            );
+                    })
+                );
 
             startStream(playgroundElement, streamA$);
             startStream(playgroundElement, streamB$);
@@ -1011,7 +1045,7 @@
             <code>});</code>
             <code> </code>
             <div class="next">
-            <code>Rx.Observable.<mark>fromPromise(getPromise('⏰', 1500))</mark></code>
+            <code>Rx.Observable.<mark>from(getPromise('⏰', 1500))</mark></code>
             <code>    .subscribe(renderNext);</code>
             </div>
         </pre>
@@ -1027,7 +1061,7 @@
                 }, time);
             });
 
-            const stream$ = Rx.Observable.fromPromise(getPromise('⏰', 1500));
+            const stream$ = rxjs.from(getPromise('⏰', 1500));
 
             startStream(playgroundElement, stream$);
         }
@@ -1042,7 +1076,7 @@
     </div>
     <small>
         <pre>
-            <code>const streamA$ = Rx.Observable.create((observer) => {</code>
+            <code>const streamA$ = rxjs.Observable.create((observer) => {</code>
             <code>    observer.<mark class="next highlight">next(1);</mark></code>
             <code>    setTimeout(() => { observer.next(2);}, <mark class="next highlight">2000</mark>);</code>
             <code>    setTimeout(() => { observer.next(3);}, <mark class="next highlight">3000</mark>);</code>
@@ -1063,7 +1097,7 @@
                 }, time);
             });
 
-            const streamA$ = Rx.Observable.create((observer) => {
+            const streamA$ = rxjs.Observable.create((observer) => {
                 observer.next(1);
                 setTimeout(() => {
                     observer.next(2);
@@ -1074,10 +1108,12 @@
                 setTimeout(() => {
                     observer.complete()
                 }, 4000);
-            })
+            });
 
             const streamB$ = streamA$
-                .switchMap((value) => getPromise(value, 1500));
+                .pipe(
+                    rxjs.operators.switchMap((value) => getPromise(value, 1500))
+                );
 
             startStream(playgroundElement, streamA$);
             startStream(playgroundElement, streamB$);
@@ -1104,7 +1140,7 @@
     <h2 class="slide-header">Пример: отменяемый fetch</h2>
     <div class="slide-description">
         <pre>
-            <code>const request$ = Rx.Observable.create((observer) => {</code>
+            <code>const request$ = rxjs.Observable.create((observer) => {</code>
             <div class="next">
             <code>    const controller = <mark>new AbortController();</mark></code>
             <code>    const signal = controller.signal;</code>
@@ -1172,13 +1208,21 @@
             const playgroundElement = document.getElementById('searchDemo1');
             const inputElement = playgroundElement.querySelector('.search-input');
             const outputElement = playgroundElement.querySelector('.search-output');
-            const onHashChange$ = Rx.Observable.fromEvent(window, 'hashchange').take(1);
-            const blur$ = Rx.Observable.fromEvent(inputElement, 'blur').take(1);
+            const onHashChange$ = rxjs.fromEvent(window, 'hashchange')
+                .pipe(
+                    rxjs.operators.take(1)
+                );
+            const blur$ = rxjs.fromEvent(inputElement, 'blur')
+                .pipe(
+                    rxjs.operators.take(1)
+                );
 
-            return Rx.Observable.fromEvent(inputElement, 'input')
-                .map((event) => event.target.value)
-                .takeUntil(onHashChange$)
-                .takeUntil(blur$)
+            return rxjs.fromEvent(inputElement, 'input')
+                .pipe(
+                    rxjs.operators.map((event) => event.target.value),
+                    rxjs.operators.takeUntil(onHashChange$),
+                    rxjs.operators.takeUntil(blur$)
+                )
                 .subscribe({
                     next: (value) => logToOutput(outputElement, value),
                     complete: () => {
@@ -1212,14 +1256,23 @@
             const playgroundElement = document.getElementById('searchDemo3');
             const inputElement = playgroundElement.querySelector('.search-input');
             const outputElement = playgroundElement.querySelector('.search-output');
-            const onHashChange$ = Rx.Observable.fromEvent(window, 'hashchange').take(1);
-            const blur$ = Rx.Observable.fromEvent(inputElement, 'blur').take(1);
+            const onHashChange$ = rxjs.fromEvent(window, 'hashchange')
+                .pipe(
+                    rxjs.operators.take(1)
+                );
+            const blur$ = rxjs.fromEvent(inputElement, 'blur')
+                .pipe(
+                    rxjs.operators.take(1)
+                );
 
-            return Rx.Observable.fromEvent(inputElement, 'input')
-                .map((event) => event.target.value)
-                .debounceTime(500)
-                .takeUntil(onHashChange$)
-                .takeUntil(blur$)
+
+            return rxjs.fromEvent(inputElement, 'input')
+                .pipe(
+                    rxjs.operators.map((event) => event.target.value),
+                    rxjs.operators.debounceTime(500),
+                    rxjs.operators.takeUntil(onHashChange$),
+                    rxjs.operators.takeUntil(blur$)
+                )
                 .subscribe({
                     next: (value) => logToOutput(outputElement, value),
                     complete: () => {
@@ -1254,15 +1307,24 @@
             const playgroundElement = document.getElementById('searchDemo4');
             const inputElement = playgroundElement.querySelector('.search-input');
             const outputElement = playgroundElement.querySelector('.search-output');
-            const onHashChange$ = Rx.Observable.fromEvent(window, 'hashchange').take(1);
-            const blur$ = Rx.Observable.fromEvent(inputElement, 'blur').take(1);
+            const onHashChange$ = rxjs.fromEvent(window, 'hashchange')
+                .pipe(
+                    rxjs.operators.take(1)
+                );
+            const blur$ = rxjs.fromEvent(inputElement, 'blur')
+                .pipe(
+                    rxjs.operators.take(1)
+                );
 
-            return Rx.Observable.fromEvent(inputElement, 'input')
-                .map((event) => event.target.value)
-                .debounceTime(500)
-                .distinctUntilChanged()
-                .takeUntil(onHashChange$)
-                .takeUntil(blur$)
+
+            return rxjs.fromEvent(inputElement, 'input')
+                .pipe(
+                    rxjs.operators.map((event) => event.target.value),
+                    rxjs.operators.debounceTime(500),
+                    rxjs.operators.distinctUntilChanged(),
+                    rxjs.operators.takeUntil(onHashChange$),
+                    rxjs.operators.takeUntil(blur$)
+                )
                 .subscribe({
                     next: (value) => logToOutput(outputElement, value),
                     complete: () => {
@@ -1298,16 +1360,25 @@
             const playgroundElement = document.getElementById('searchDemo5');
             const inputElement = playgroundElement.querySelector('.search-input');
             const outputElement = playgroundElement.querySelector('.search-output');
-            const onHashChange$ = Rx.Observable.fromEvent(window, 'hashchange').take(1);
-            const blur$ = Rx.Observable.fromEvent(inputElement, 'blur').take(1);
+            const onHashChange$ = rxjs.fromEvent(window, 'hashchange')
+                .pipe(
+                    rxjs.operators.take(1)
+                );
+            const blur$ = rxjs.fromEvent(inputElement, 'blur')
+                .pipe(
+                    rxjs.operators.take(1)
+                );
 
-            return Rx.Observable.fromEvent(inputElement, 'input')
-                .map((event) => event.target.value)
-                .debounceTime(300)
-                .distinctUntilChanged()
-                .switchMap(value => fetchData(value))
-                .takeUntil(onHashChange$)
-                .takeUntil(blur$)
+
+            return rxjs.fromEvent(inputElement, 'input')
+                .pipe(
+                    rxjs.operators.map((event) => event.target.value),
+                    rxjs.operators.debounceTime(500),
+                    rxjs.operators.distinctUntilChanged(),
+                    rxjs.operators.switchMap(value => fetchData(value)),
+                    rxjs.operators.takeUntil(onHashChange$),
+                    rxjs.operators.takeUntil(blur$)
+                )
                 .subscribe({
                     next: (items) => logAllToOutput(outputElement, items),
                     complete: () => {
@@ -1345,25 +1416,33 @@
             const playgroundElement = document.getElementById('searchDemo6');
             const inputElement = playgroundElement.querySelector('.search-input');
             const outputElement = playgroundElement.querySelector('.search-output');
-            const onHashChange$ = Rx.Observable.fromEvent(window, 'hashchange').take(1);
-            const blur$ = Rx.Observable.fromEvent(inputElement, 'blur').take(1);
+            const onHashChange$ = rxjs.fromEvent(window, 'hashchange')
+                .pipe(
+                    rxjs.operators.take(1)
+                );
+            const blur$ = rxjs.fromEvent(inputElement, 'blur')
+                .pipe(
+                    rxjs.operators.take(1)
+                );
 
             const setLoading = (flag) => {
                 outputElement.classList.toggle('search-loading', flag);
-            }
+            };
 
-            return Rx.Observable.fromEvent(inputElement, 'input')
-                .do(() => {
-                    outputElement.innerHTML = ''
-                })
-                .map((event) => event.target.value)
-                .debounceTime(300)
-                .distinctUntilChanged()
-                .do(() => setLoading(true))
-                .switchMap(value => fetchData(value))
-                .do(() => setLoading(false))
-                .takeUntil(onHashChange$)
-                .takeUntil(blur$)
+            return rxjs.fromEvent(inputElement, 'input')
+                .pipe(
+                    rxjs.operators.tap(() => {
+                        outputElement.innerHTML = ''
+                    }),
+                    rxjs.operators.map((event) => event.target.value),
+                    rxjs.operators.debounceTime(500),
+                    rxjs.operators.distinctUntilChanged(),
+                    rxjs.operators.tap(() => setLoading(true)),
+                    rxjs.operators.switchMap(value => fetchData(value)),
+                    rxjs.operators.tap(() => setLoading(false)),
+                    rxjs.operators.takeUntil(onHashChange$),
+                    rxjs.operators.takeUntil(blur$)
+                )
                 .subscribe({
                     next: (items) => logAllToOutput(outputElement, items),
                     complete: () => {
@@ -1434,9 +1513,11 @@
             const playgroundElement = document.getElementById('observableMultiSubs');
             playgroundElement.innerHTML = '';
 
-            const stream$ = Rx.Observable.interval(TICK_MS)
-                .take(5)
-                .map(() => Math.random().toString().substr(2, 2));
+            const stream$ = rxjs.interval(TICK_MS)
+                .pipe(
+                    rxjs.operators.take(5),
+                    rxjs.operators.map(() => Math.random().toString().substr(2, 2))
+                );
 
             startStream(playgroundElement, stream$);
             startStream(playgroundElement, stream$);
@@ -1489,7 +1570,7 @@
             const playgroundElement = document.getElementById('subjectIntro');
             playgroundElement.innerHTML = '';
 
-            const subject = new Rx.Subject();
+            const subject = new rxjs.Subject();
             setSubjectTick1(subject);
 
             startStream(playgroundElement, subject);
@@ -1668,8 +1749,8 @@
 <div class="progress"></div>
 
 <script src="node_modules/shower-core/shower.min.js"></script>
-<script src="node_modules/rxjs/bundles/Rx.min.js"></script>
-<script src="custom/scripts.js"></script>
+<script src="node_modules/rxjs/bundles/rxjs.umd.min.js"></script>
+<script src="./custom-scripts.js"></script>
 <!-- Copyright © 2018 Andrey Alexeev -->
 </body>
 </html>
