@@ -27,7 +27,7 @@
         <img width="300" class="intro-img" src="pictures/rxjs-logo.png" alt="RxJS">
     </div>
     <div class="cover-title">
-        <h2>RxJS<br>по косточкам</h2>
+        <h2>RxJS<br>введение</h2>
     </div>
 </section>
 
@@ -388,15 +388,14 @@
     <h2 class="slide-header">Поток событий</h2>
     <div class="slide-description">
         <pre>
-            <code><mark>Rx.Observable</mark></code>
-            <code>    <mark>.from([{x: 11, y: 99}, {x: 91, y: 151}, {x: 152, y: 106}, {x: 274, y: 84}])</mark></code>
-            <code class="next">    .map((value) => { ... })</code>
-            <code class="next">    .filter((value) => { ... })</code>
-            <code class="next">    .reduce((acc, curr) => { ... })</code>
+            <code><mark><span class="rxjs-creation">from</span>([{x: 11, y: 99}, {x: 91, y: 151}, {x: 152, y: 106}]).<span class="rxjs-pipe">pipe</span>(</mark></code>
+            <code class="next">    <span class="rxjs-operator">map</span>((value) => { ... }),</code>
+            <code class="next">    <span class="rxjs-operator">filter</span>((value) => { ... }),</code>
+            <code class="next">    <span class="rxjs-operator">reduce</span>((acc, curr) => { ... })</code>
             <div class="next">
-            <code>    .subscribe(result => {</code>
-            <code>        console.log(result);</code>
-            <code>    });</code>
+                <code>).<span class="rxjs-subscribe">subscribe</span>(result => {</code>
+            <code>    console.log(result);</code>
+            <code>});</code>
             </div>
         </pre>
     </div>
@@ -509,13 +508,13 @@
     </div>
     <small>
         <pre>
-                <code>const stream$ = rxjs.Observable.create((observer) => {</code>
+            <code>const stream$ = <span class="rxjs-creation">Observable.create</span>((observer) => {</code>
                 <code>    observer.next(1);</code>
                 <code>    setTimeout(() => { observer.next(2);},    1000);</code>
                 <code>    setTimeout(() => { observer.next(3);},    2000);</code>
                 <code>    setTimeout(() => { observer.complete();}, 3000);</code>
                 <code>});</code>
-                <code>const subscribtion = stream$.subscribe({</code>
+                <code>const subscribtion = stream$.<span class="rxjs-subscribe">subscribe</span>({</code>
                 <code>    next: (value) => renderNext(value),</code>
                 <code>    error: (error) => renderError(error),</code>
                 <code>    complete: () => renderComplete()</code>
