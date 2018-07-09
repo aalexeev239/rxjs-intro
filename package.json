@@ -7,10 +7,10 @@
     "url": "http://aalexeev.ru"
   },
   "dependencies": {
-    "rxjs": "5.5.6",
+    "rxjs": "^6.2.1",
     "shower-core": "^2.1.0",
-    "tinkoff-shower": "git+git@github.com:lekzd/tinkoff-shower.git",
-    "shower-material": "^1.1.0"
+    "shower-material": "^1.1.0",
+    "tinkoff-shower": "git+git@github.com:lekzd/tinkoff-shower.git"
   },
   "devDependencies": {
     "browser-sync": "^2.18.12",
