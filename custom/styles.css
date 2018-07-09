@@ -10,7 +10,8 @@
 }
 
 .rxjs-pipe {
-    color: #283593;
+    /*color: #283593;*/
+    color: #00695c;
 }
 
 .rxjs-operator {

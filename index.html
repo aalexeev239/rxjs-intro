@@ -554,9 +554,9 @@
     </div>
     <small>
         <pre>
-            <code>const <mark class="highlight next">stream$</mark> = <mark>rxjs.Observable.create</mark>((observer) => {...});</code>
+            <code>const <mark class="highlight next">stream$</mark> = <mark><span class="rxjs-creation">Observable.create</span></mark>((observer) => {...});</code>
             <code> </code>
-            <code>const subscribtion = stream$.<mark class="highlight next">subscribe</mark>(...);</code>
+            <code>const subscribtion = stream$.<mark class="highlight next"><span class="rxjs-subscribe">subscribe</span></mark>(...);</code>
         </pre>
     </small>
 </section>
@@ -573,15 +573,15 @@
     </div>
     <small>
         <pre>
-            <code>const subscribtion = stream$.subscribe(</code>
+            <code>const subscribtion = stream$.<span class="rxjs-subscribe">subscribe</span>(</code>
             <code>    {</code>
-            <code>        next: <mark class="next">(value) => renderNext(value),</mark></code>
+            <code>        next: <span class="next">(value) => renderNext(value),</span></code>
             <code>        error: <span class="next">(error) => renderError(error),</span></code>
-            <code>        complete: <mark class="next">() => renderComplete()</mark></code>
+            <code>        complete: <span class="next">() => renderComplete()</span></code>
             <code>    }</code>
             <code>);</code>
-            <code class="next">stream$.subscribe(<mark>(value) => renderNext(value)</mark>);</code>
-            <code class="next">stream$.subscribe(<mark>renderNext</mark>);</code>
+            <code class="next">stream$.<span class="rxjs-subscribe">subscribe</span>((value) => renderNext(value));</code>
+            <code class="next">stream$.<span class="rxjs-subscribe">subscribe</span>(renderNext);</code>
         </pre>
     </small>
 </section>
@@ -597,13 +597,13 @@
     </div>
     <small>
         <pre>
-            <code>const stream$ = rxjs.Observable.create((<mark>observer</mark>) => {</code>
+            <code>const stream$ = <span class="rxjs-creation">Observable.create</span>((<mark>observer</mark>) => {</code>
             <code class="next">    <mark>observer.next(1);</mark></code>
             <code class="next">    setTimeout(() => { <mark>observer.next(2);</mark>},    1000);</code>
             <code class="next">    setTimeout(() => { <mark>observer.next(3);</mark>},    2000);</code>
             <code class="next">    setTimeout(() => { <mark>observer.complete();</mark>}, 3000);</code>
             <code>});</code>
-            <code class="next">stream$.subscribe(<mark>renderNext</mark>);</code>
+            <code class="next">stream$.<span class="rxjs-subscribe">subscribe</span>(renderNext);</code>
         </pre>
     </small>
     <div class="playground next">
@@ -630,7 +630,7 @@
     <small>
         <pre>
             <div class="next invisible-next">
-            <code>const stream$ = rxjs.Observable.create((observer) => {</code>
+            <code>const stream$ = <span class="rxjs-creation">Observable.create</span>((observer) => {</code>
             <code>    const timeout = setTimeout(() => observer.next(1), 1000);</code>
             <code> </code>
             <code>    <mark>return function unsubscribe()</mark> { </code>
@@ -638,10 +638,10 @@
             <code>    }</code>
             <code>});</code>
             </div>
-            <code class="after-invisible-next">const stream$ = rxjs.Observable.create((observer) => {...});</code>
+            <code class="after-invisible-next">const stream$ = <span class="rxjs-creation">Observable.create</span>((observer) => {...});</code>
             <code> </code>
-            <code>const <mark>subscribtion</mark> = stream$.subscribe(...);</code>
-            <code>subscribtion.unsubscribe();</code>
+            <code>const <mark>subscribtion</mark> = stream$.<span class="rxjs-subscribe">subscribe</span>(...);</code>
+            <code>subscribtion.<span class="rxjs-subscribe">unsubscribe</span>();</code>
         </pre>
     </small>
 </section>
@@ -655,11 +655,11 @@
     </div>
     <small>
         <pre>
-            <code>const stream$ = rxjs.Observable.create((observer) => {...});</code>
+            <code>const stream$ = <span class="rxjs-creation">Observable.create</span>((observer) => {...});</code>
             <code> </code>
-            <code>const subscribtionA = stream$.subscribe(observerA);</code>
-            <code class="next">const subscribtionB = stream$.subscribe(<mark>observerBC</mark>);</code>
-            <code class="next">const subscribtionC = stream$.subscribe(<mark>observerBC</mark>);</code>
+            <code>const subscribtionA = stream$.<span class="rxjs-subscribe">subscribe</span>(observerA);</code>
+            <code class="next">const subscribtionB = stream$.<span class="rxjs-subscribe">subscribe</span>(<mark>observerBC</mark>);</code>
+            <code class="next">const subscribtionC = stream$.<span class="rxjs-subscribe">subscribe</span>(<mark>observerBC</mark>);</code>
         </pre>
     </small>
 </section>
@@ -678,13 +678,13 @@
     </div>
     <small>
         <pre>
-                <code>const <mark class="highlight next">stream$</mark> = <mark class="highlight next">rxjs.Observable.create</mark>((observer) => {</code>
+            <code>const <mark class="highlight next">stream$</mark> = <mark class="highlight next"><span class="rxjs-creation">Observable.create</span></mark>((observer) => {</code>
                 <code>    <mark class="highlight next">observer.next(1);</mark></code>
                 <code>    setTimeout(() => { <mark class="highlight next">observer.next(2);</mark>},    1000);</code>
                 <code>    setTimeout(() => { <mark class="highlight next">observer.next(3);</mark>},    2000);</code>
                 <code>    setTimeout(() => { <mark class="highlight next">observer.complete();</mark>}, 3000);</code>
                 <code>});</code>
-                <code>const <mark class="highlight next">subscribtion</mark> = stream$.<mark class="highlight next">subscribe</mark>({</code>
+            <code>const <mark class="highlight next">subscribtion</mark> = stream$.<mark class="highlight next"><span class="rxjs-subscribe">subscribe</span></mark>({</code>
                 <code>    next: <mark class="highlight next">(value) => renderNext(value)</mark>,</code>
                 <code>    error: (error) => renderError(error),</code>
                 <code>    complete: <mark class="highlight next">() => renderComplete()</mark></code>
@@ -696,7 +696,7 @@
 <section class="slide">
     <h2 class="slide-header">Ок, что дальше?</h2>
     <div class="slide-description">
-        <p>Дальше — 127+ операторов. 127, Карл!</p>
+        <p>Дальше — 120+ операторов. 120, Карл!</p>
         <ul>
             <li>cоздание</li>
             <li>преобразование одного потока</li>
@@ -710,16 +710,19 @@
     <h2 class="slide-header">Cоздание Observable</h2>
     <div class="slide-description">
         <pre>
-            <code>Rx.Observable.<mark>of('foo');</mark></code>
-            <code class="next text-muted">// ---foo---|</code>
+            <code class="text-muted">import {<span class="rxjs-creation">of</span>} from 'rxjs';</code>
+            <code><span class="rxjs-creation">of</span>('foo');</code>
+            <code class="next text-muted">// ---foo-|</code>
             <div class="next">
             <code> </code>
-            <code>Rx.Observable.<mark>from(['foo', 'bar', 'baz']);</mark></code>
-            <code class="next text-muted">// ---foo---bar---baz---|</code>
+            <code class="text-muted">import {<span class="rxjs-creation">from</span>} from 'rxjs';</code>
+            <code><span class="rxjs-creation">from</span>(['foo', 'bar', 'baz']);</code>
+            <code class="next text-muted">// ---foo---bar---baz-|</code>
             </div>
             <div class="next">
             <code> </code>
-            <code>Rx.Observable.<mark>timer(100, 500);</mark></code>
+            <code class="text-muted">import {<span class="rxjs-creation">timer</span>} from 'rxjs';</code>
+            <code><span class="rxjs-creation">timer</span>(100, 500);</code>
             <code class="next text-muted">// -0---1---2---3--...</code>
             </div>
         </pre>
@@ -731,13 +734,15 @@
     <h2 class="slide-header">Cоздание Observable</h2>
     <div class="slide-description">
         <pre>
+            <code class="text-muted">import {<span class="rxjs-creation">from</span>} from 'rxjs';</code>
             <code>const promise = new Promise((resolve) => { resolve('foo')});</code>
-            <code>Rx.Observable.<mark>fromPromise(promise);</mark></code>
-            <code class="next text-muted">// ----------------foo---|</code>
+            <code><span class="rxjs-creation">from</span>(promise);</code>
+            <code class="next text-muted">// ----------------foo-|</code>
             <div class="next">
             <code> </code>
+            <code class="text-muted">import {<span class="rxjs-creation">fromEvent</span>} from 'rxjs';</code>
             <code>const btnElement = document.getElementById('btn');</code>
-                <code>Rx.Observable.<mark>fromEvent(btnElement, 'click');</mark></code>
+            <code><span class="rxjs-creation">fromEvent</span>(btnElement, 'click');</code>
             <code class="next text-muted">// --evt-evt------evt----evt--...</code>
             </div>
         </pre>
@@ -753,15 +758,16 @@
     </div>
     <small>
         <pre>
-            <code>Rx.Observable.timer(0, 500)</code>
-            <code class="next">    .take(12)</code>
-            <code class="next">    .subscribe(renderNext);</code>
+            <code class="text-muted">import {<span class="rxjs-operator">take</span>, <span class="rxjs-operator">filter</span>} from 'rxjs/operators';</code>
+            <code><span class="rxjs-creation">timer</span>(0, 500).<span class="rxjs-pipe">pipe</span>(</code>
+            <code>    <span class="rxjs-operator">take</span>(12)</code>
+            <code>).<span class="rxjs-subscribe">subscribe</span>(renderNext);</code>
             <div class="next">
-            <code> </code>
-            <code>Rx.Observable.timer(0, 500)</code>
-            <code class="next">    .take(12)</code>
-            <code class="next">    .filter(() => Math.random() < 0.3)</code>
-            <code class="next">    .subscribe(renderNext);</code>
+                <code> </code>
+                <code><span class="rxjs-creation">timer</span>(0, 500).<span class="rxjs-pipe">pipe</span>(</code>
+                <code>    <span class="rxjs-operator">take</span>(12),</code>
+                <code>    <span class="rxjs-operator">filter</span>(() => Math.random() < 0.3)</code>
+                <code>).<span class="rxjs-subscribe">subscribe</span>(renderNext);</code>
             </div>
         </pre>
     </small>
@@ -806,11 +812,11 @@
         <div class="playground playground-two-streams" id="operatorsExample2"></div>
         <button class="btn btn-play" onclick="run(operatorsExample2, this)">▶</button>
         <pre>
-            <code>Rx.Observable.timer(0, 250)</code>
-            <code>    .take(40)</code>
-            <code>    .filter(() => Math.random() < 0.3)</code>
-            <code>    <mark>.debounceTime(500)</mark></code>
-            <code>    .subscribe(renderNext);</code>
+            <code><span class="rxjs-creation">timer</span>(0, 250).<span class="rxjs-pipe">pipe</span>(</code>
+            <code>    <span class="rxjs-operator">take</span>(40),</code>
+            <code>    <span class="rxjs-operator">filter</span>(() => Math.random() < 0.3),</code>
+            <code>    <mark><span class="rxjs-operator">debounceTime</span>(500)</mark></code>
+            <code>).<span class="rxjs-subscribe">subscribe</span>(renderNext);</code>
         </pre>
     </div>
     <script>
@@ -842,12 +848,13 @@
         <div class="playground playground-three-streams" id="operatorMerge"></div>
         <button class="btn btn-play" onclick="run(operatorMerge, this)">▶</button>
         <pre>
-            <code>const streamA$ = Rx.Observable.timer(0, 1500).take(4);</code>
-            <code>const streamB$ = Rx.Observable.timer(800, 1000).take(6)</code>
-            <code>    .map((value) => 'abcdef'[value]);</code>
-            <code> </code>
-            <code>Rx.Observable.<mark>merge(streamA$, streamB$)</mark></code>
-            <code>    .subscribe(renderNext);</code>
+            <code>const streamA$ = <span class="rxjs-creation">timer</span>(0, 1500).<span class="rxjs-pipe">pipe</span>(<span class="rxjs-operator">take</span>(4));</code>
+            <code>const streamB$ = <span class="rxjs-creation">timer</span>(800, 1000).<span class="rxjs-pipe">pipe</span>(</code>
+            <code>    <span class="rxjs-operator">take</span>(6),</code>
+            <code>    <span class="rxjs-operator">map</span>((value) => 'abcdef'[value])</code>
+            <code>);</code>
+            <code><span class="rxjs-creation">merge</span>(streamA$, streamB$)</code>
+            <code>    .<span class="rxjs-subscribe">subscribe</span>(renderNext);</code>
         </pre>
     </div>
     <script>
@@ -881,13 +888,14 @@
         <div class="playground playground-three-streams" id="operatorCombineLatest"></div>
         <button class="btn btn-play" onclick="run(operatorCombineLatest, this)">▶</button>
         <pre>
-            <code>const streamA$ = Rx.Observable.timer(0, 1500).take(4);</code>
-            <code>const streamB$ = Rx.Observable.timer(800, 1000).take(6)</code>
-            <code>    .map((value) => 'abcdef'[value]);</code>
-            <code> </code>
-            <code>Rx.Observable.<mark>combineLatest(streamA$, streamB$)</mark></code>
-            <code>    .map(([a, b]) => a + b)</code>
-            <code>    .subscribe(renderNext);</code>
+            <code>const streamA$ = <span class="rxjs-creation">timer</span>(0, 1500).<span class="rxjs-pipe">pipe</span>(<span class="rxjs-operator">take</span>(4));</code>
+            <code>const streamB$ = <span class="rxjs-creation">timer</span>(800, 1000).<span class="rxjs-pipe">pipe</span>(</code>
+            <code>    <span class="rxjs-operator">take</span>(6),</code>
+            <code>    <span class="rxjs-operator">map</span>((value) => 'abcdef'[value])</code>
+            <code>);</code>
+            <code><span class="rxjs-creation">combineLatest</span>(streamA$, streamB$).<span class="rxjs-pipe">pipe</span>(</code>
+            <code>    <span class="rxjs-operator">map</span>(([a, b]) => a + b)</code>
+            <code>).<span class="rxjs-subscribe">subscribe</span>(renderNext);</code>
         </pre>
     </div>
     <script>
@@ -924,17 +932,18 @@
         <div class="playground playground-two-streams" id="operatorMergeMap"></div>
         <button class="btn btn-play" onclick="run(operatorMergeMap, this)">▶</button>
         <pre>
-            <code>Rx.Observable.timer(0, 1500)</code>
-            <code>    .take(3)</code>
-            <code>    .map((value) => 'abcd'[value])</code>
+            <code><span class="rxjs-creation">timer</span>(0, 1500).<span class="rxjs-pipe">pipe</span>(</code>
+            <code>    <span class="rxjs-operator">take</span>(3),</code>
+            <code>    <span class="rxjs-operator">map</span>((value) => 'abcd'[value]),</code>
             <div class="next">
-            <code>    .<mark>mergeMap</mark>(value => {</code>
+            <code>    <mark><span class="rxjs-operator">mergeMap</span></mark>(value => {</code>
             <div class="next">
-            <code>        return Rx.Observable.timer(0, 450).take(6)</code>
-            <code>            .map(innerValue => value + innerValue);</code>
+            <code>        return <span class="rxjs-creation">timer</span>(0, 450).<span class="rxjs-pipe">pipe</span>(</code>
+            <code>            <span class="rxjs-operator">take</span>(6),</code>
+            <code>            <span class="rxjs-operator">map</span>(innerValue => value + innerValue));</code>
             </div>
             <code>    })</code>
-            <code>    .subscribe(renderNext);</code>
+            <code>).<span class="rxjs-subscribe">subscribe</span>(renderNext);</code>
             </div>
         </pre>
     </div>
@@ -974,14 +983,19 @@
     </div>
     <small>
         <pre>
-            <code>Rx.Observable.timer(0, 1500)</code>
-            <code>    .take(3)</code>
-            <code>    .map((value) => 'abcd'[value])</code>
-            <code>    <mark>.switchMap</mark>(value => {</code>
-            <code>        return Rx.Observable.timer(0, 450).take(6)</code>
-            <code>            .map(innerValue => value + innerValue);</code>
+            <code><span class="rxjs-creation">timer</span>(0, 1500).<span class="rxjs-pipe">pipe</span>(</code>
+            <code>    <span class="rxjs-operator">take</span>(3),</code>
+            <code>    <span class="rxjs-operator">map</span>((value) => 'abcd'[value]),</code>
+            <div class="next">
+            <code>    <mark><span class="rxjs-operator">switchMap</span></mark>(value => {</code>
+            <div class="next">
+            <code>        return <span class="rxjs-creation">timer</span>(0, 450).<span class="rxjs-pipe">pipe</span>(</code>
+            <code>            <span class="rxjs-operator">take</span>(6),</code>
+            <code>            <span class="rxjs-operator">map</span>(innerValue => value + innerValue));</code>
+            </div>
             <code>    })</code>
-            <code>    .subscribe(renderNext);</code>
+            <code>).<span class="rxjs-subscribe">subscribe</span>(renderNext);</code>
+            </div>
         </pre>
     </small>
     <script>
@@ -1044,7 +1058,7 @@
             <code>});</code>
             <code> </code>
             <div class="next">
-            <code>Rx.Observable.<mark>from(getPromise('⏰', 1500))</mark></code>
+            <code><span class="rxjs-creation">from</span>(getPromise('⏰', 1500))</code>
             <code>    .subscribe(renderNext);</code>
             </div>
         </pre>
@@ -1075,14 +1089,15 @@
     </div>
     <small>
         <pre>
-            <code>const streamA$ = rxjs.Observable.create((observer) => {</code>
-            <code>    observer.<mark class="next highlight">next(1);</mark></code>
-            <code>    setTimeout(() => { observer.next(2);}, <mark class="next highlight">2000</mark>);</code>
-            <code>    setTimeout(() => { observer.next(3);}, <mark class="next highlight">3000</mark>);</code>
-            <code>    setTimeout(() => { observer.complete()}, <mark class="next highlight">4000</mark>);</code>
+            <code>const streamA$ = <span class="rxjs-creation">Observable.create</span>((observer) => {</code>
+            <code>    observer.next;</mark></code>
+            <code>    setTimeout(() => { observer.next(2);}, 2000);</code>
+            <code>    setTimeout(() => { observer.next(3);}, 3000);</code>
+            <code>    setTimeout(() => { observer.complete()}, 4000);</code>
             <code>})</code>
-            <code>const streamB$ = streamA$</code>
-            <code>    <mark class="next highlight">.switchMap((value) => getPromise(value, 1500));</mark></code>
+            <code>const streamB$ = streamA$.<span class="rxjs-pipe">pipe</span>(</code>
+            <code>    <mark class="next highlight"><span class="rxjs-operator">switchMap</span>((value) => getPromise(value, 1500))</mark></code>
+            <code>).<span class="rxjs-subscribe">subscribe</span>(renderNext);</code>
         </pre>
     </small>
     <script>
@@ -1124,7 +1139,7 @@
 <section class="slide">
     <h2 class="slide-header">SwitchMap и отписки</h2>
     <div class="slide-description">
-        <p><strong>SwitchMap</strong> автоматически отписывает внутренний поток — вызывает subscription.unsubscribe()
+        <p><strong>SwitchMap</strong> автоматически отписывает внутренний поток — вызывает subscription.<span class="rxjs-subscribe">unsubscribe</span>()
         </p>
         <p class="next">Можем написать отменяемые запросы:</p>
         <ul>
@@ -1139,7 +1154,7 @@
     <h2 class="slide-header">Пример: отменяемый fetch</h2>
     <div class="slide-description">
         <pre>
-            <code>const request$ = rxjs.Observable.create((observer) => {</code>
+            <code>const request$ = <span class="rxjs-creation">Observable.create</span>((observer) => {</code>
             <div class="next">
             <code>    const controller = <mark>new AbortController();</mark></code>
             <code>    const signal = controller.signal;</code>
@@ -1190,10 +1205,13 @@
     <h2 class="slide-header">Демо: поток ввода</h2>
     <div class="slide-search">
         <pre class="search-code">
-            <code>Rx.Observable</code>
-            <code>    .fromEvent(inputElement, 'input')</code>
-            <code class="next">    .map((event) => event.target.value)</code>
-            <code class="next">    .subscribe(logToOutput)</code>
+            <code><span class="rxjs-creation">fromEvent</span>(inputElement, 'input')</code>
+            <code>    .<span class="rxjs-pipe">pipe</span>(</code>
+            <code class="next">        <span class="rxjs-operator">map</span>((event) => event.target.value)</code>
+            <div class="next">
+            <code>    )</code>
+            <code>    .<span class="rxjs-subscribe">subscribe</span>(logToOutput)</code>
+            </div>
         </pre>
         <div class="search-playground" id="searchDemo1">
             <input type="text" class="search-input" onfocus="searchDemo1()">
@@ -1237,11 +1255,12 @@
     <h2 class="slide-header">Демо: дебаунс</h2>
     <div class="slide-search">
         <pre class="search-code">
-            <code>Rx.Observable</code>
-            <code>    .fromEvent(inputElement, 'input')</code>
-            <code>    .map((event) => event.target.value)</code>
-            <code>    <mark>.debounceTime(500)</mark></code>
-            <code>    .subscribe(logToOutput)</code>
+            <code><span class="rxjs-creation">fromEvent</span>(inputElement, 'input')</code>
+            <code>    .<span class="rxjs-pipe">pipe</span>(</code>
+            <code>        <span class="rxjs-operator">map</span>((event) => event.target.value),</code>
+            <code>        <mark><span class="rxjs-operator">debounceTime</span>(500)</mark></code>
+            <code>    )</code>
+            <code>    .<span class="rxjs-subscribe">subscribe</span>(logToOutput)</code>
         </pre>
         <div class="search-playground" id="searchDemo3">
             <input type="text" class="search-input" onfocus="searchDemo3()">
@@ -1287,12 +1306,13 @@
     <h2 class="slide-header">Демо: фильтрация совпадений</h2>
     <div class="slide-search">
         <pre class="search-code">
-            <code>Rx.Observable</code>
-            <code>    .fromEvent(inputElement, 'input')</code>
-            <code>    .map((event) => event.target.value)</code>
-            <code>    .debounceTime(500)</code>
-            <code>    <mark>.distinctUntilChanged()</mark></code>
-            <code>    .subscribe(logToOutput)</code>
+            <code><span class="rxjs-creation">fromEvent</span>(inputElement, 'input')</code>
+            <code>    .<span class="rxjs-pipe">pipe</span>(</code>
+            <code>        <span class="rxjs-operator">map</span>((event) => event.target.value),</code>
+            <code>        <span class="rxjs-operator">debounceTime</span>(500),</code>
+            <code>        <mark><span class="rxjs-operator">distinctUntilChanged</span>()</mark></code>
+            <code>    )</code>
+            <code>    .<span class="rxjs-subscribe">subscribe</span>(logToOutput)</code>
         </pre>
         <div class="search-playground" id="searchDemo4">
             <input type="text" class="search-input" onfocus="searchDemo4()">
@@ -1339,13 +1359,14 @@
     <h2 class="slide-header">Демо: запрос данных</h2>
     <div class="slide-search">
         <pre class="search-code">
-            <code>Rx.Observable</code>
-            <code>    .fromEvent(inputElement, 'input')</code>
-            <code>    .map((event) => event.target.value)</code>
-            <code>    .debounceTime(500)</code>
-            <code>    .distinctUntilChanged()</code>
-            <code>    <mark>.switchMap(query => fetchData(query))</mark></code>
-            <code>    .subscribe(logToOutput)</code>
+            <code><span class="rxjs-creation">fromEvent</span>(inputElement, 'input')</code>
+            <code>    .<span class="rxjs-pipe">pipe</span>(</code>
+            <code>        <span class="rxjs-operator">map</span>((event) => event.target.value),</code>
+            <code>        <span class="rxjs-operator">debounceTime</span>(500),</code>
+            <code>        <span class="rxjs-operator">distinctUntilChanged</span>(),</code>
+            <code>        <mark><span class="rxjs-operator">switchMap</span>(query => fetchData(query))</mark></code>
+            <code>    )</code>
+            <code>    .<span class="rxjs-subscribe">subscribe</span>(logToOutput)</code>
         </pre>
         <div class="search-playground" id="searchDemo5">
             <input type="text" class="search-input" onfocus="searchDemo5()">
@@ -1393,15 +1414,16 @@
     <h2 class="slide-header">Демо: лоадер</h2>
     <div class="slide-search">
         <pre class="search-code">
-            <code>Rx.Observable</code>
-            <code>    .fromEvent(inputElement, 'input')</code>
-            <code>    .map((event) => event.target.value)</code>
-            <code>    .debounceTime(500)</code>
-            <code>    .distinctUntilChanged()</code>
-            <code>    <mark>.do(() => setLoading(true))</mark></code>
-            <code>    .switchMap(value => fetchData(value))</code>
-            <code>    <mark>.do(() => setLoading(false))</mark></code>
-            <code>    .subscribe(logToOutput)</code>
+            <code><span class="rxjs-creation">fromEvent</span>(inputElement, 'input')</code>
+            <code>    .<span class="rxjs-pipe">pipe</span>(</code>
+            <code>        <span class="rxjs-operator">map</span>((event) => event.target.value),</code>
+            <code>        <span class="rxjs-operator">debounceTime</span>(500),</code>
+            <code>        <span class="rxjs-operator">distinctUntilChanged</span>(),</code>
+            <code>        <mark><span class="rxjs-operator">tap</span>(() => setLoading(true))</mark>,</code>
+            <code>        <span class="rxjs-operator">switchMap</span>(query => fetchData(query)),</code>
+            <code>        <mark><span class="rxjs-operator">tap</span>(() => setLoading(false))</mark></code>
+            <code>    )</code>
+            <code>    .<span class="rxjs-subscribe">subscribe</span>(logToOutput)</code>
         </pre>
         <div class="search-playground" id="searchDemo6">
             <input type="text" class="search-input" onfocus="searchDemo6()">
@@ -1457,15 +1479,16 @@
     <h2 class="slide-header">Демо: результаты</h2>
     <div class="slide-search">
         <pre class="search-code">
-            <code>Rx.Observable</code>
-            <code>    .fromEvent(inputElement, 'input')</code>
-            <code>    .map((event) => event.target.value)</code>
-            <code>    .debounceTime(500)</code>
-            <code>    .distinctUntilChanged()</code>
-            <code>    .do(() => setLoading(true))</code>
-            <code>    .switchMap(value => fetchData(value))</code>
-            <code>    .do(() => setLoading(false))</code>
-            <code>    .subscribe(logToOutput)</code>
+            <code><span class="rxjs-creation">fromEvent</span>(inputElement, 'input')</code>
+            <code>    .<span class="rxjs-pipe">pipe</span>(</code>
+            <code>        <span class="rxjs-operator">map</span>((event) => event.target.value),</code>
+            <code>        <span class="rxjs-operator">debounceTime</span>(500),</code>
+            <code>        <span class="rxjs-operator">distinctUntilChanged</span>(),</code>
+            <code>        <span class="rxjs-operator">tap</span>(() => setLoading(true)),</code>
+            <code>        <span class="rxjs-operator">switchMap</span>(query => fetchData(query)),</code>
+            <code>        <span class="rxjs-operator">tap</span>(() => setLoading(false))</code>
+            <code>    )</code>
+            <code>    .<span class="rxjs-subscribe">subscribe</span>(logToOutput)</code>
         </pre>
     </div>
 </section>
@@ -1495,14 +1518,14 @@
     </div>
     <small>
         <pre>
-                <code>const stream$ = Rx.Observable.interval(500)</code>
-                <code>    .take(5)</code>
-                <code>    .map(() => random());</code>
-                <code class="next">stream$.subscribe(/* ... */);</code>
-                <code class="next">stream$.subscribe(/* ... */);</code>
+            <code>const stream$ = <span class="rxjs-creation">interval</span>(500).<span class="rxjs-pipe">pipe</span>(</code>
+                <code>    <span class="rxjs-operator">take</span>(5),</code>
+                <code>    <span class="rxjs-operator">map</span>(() => random()));</code>
+                <code class="next">stream$.<span class="rxjs-subscribe">subscribe</span>(/* ... */);</code>
+                <code class="next">stream$.<span class="rxjs-subscribe">subscribe</span>(/* ... */);</code>
                 <div class="next">
                 <code>setTimeout(() => {</code>
-                <code>    stream$.subscribe(/* ... */);</code>
+                    <code>    stream$.<span class="rxjs-subscribe">subscribe</span>(/* ... */);</code>
                 <code>}, 800);</code>
                 </div>
         </pre>
@@ -1533,7 +1556,7 @@
     <div class="relative-container">
         <small>
             <pre>
-                <code>const subject = new Rx.Subject();</code>
+                <code>const subject = new <span class="rxjs-creation">Subject</span>();</code>
                 <code> </code>
                 <code>subject.next(0);</code>
                 <code>setTimeout(() => subject.next(1), 1000);</code>
@@ -1555,12 +1578,12 @@
     <div class="relative-container">
         <small>
         <pre>
-                <code>const subject = new Rx.Subject();</code>
+                <code>const subject = new <span class="rxjs-creation">Subject</span>();</code>
                 <code>setSubjectTick(subject);</code>
                 <code>&nbsp;</code>
-                <code>subject.subscribe();</code>
-                <code>setTimeout(() => subject.subscribe(/* ... */), 1500);</code>
-                <code>setTimeout(() => subject.subscribe(/* ... */), 2500);</code>
+                <code>subject.<span class="rxjs-subscribe">subscribe</span>();</code>
+                <code>setTimeout(() => subject.<span class="rxjs-subscribe">subscribe</span>(/* ... */), 1500);</code>
+                <code>setTimeout(() => subject.<span class="rxjs-subscribe">subscribe</span>(/* ... */), 2500);</code>
         </pre>
         </small>
     </div>
@@ -1593,14 +1616,14 @@
     <h2 class="slide-header">Пример - автоотписка</h2>
     <div class="slide-description">
         <pre>
-            <code>const subscription = streamA$</code>
-            <code>    .map(...)</code>
-            <code>    .switchMap(...)</code>
-            <code>    .subscribe(...);</code>
+            <code>const subscription = streamA$.<span class="rxjs-pipe">pipe</span>(</code>
+            <code>    <span class="rxjs-operator">map</span>(...),</code>
+            <code>    <span class="rxjs-operator">switchMap</span>(...)</code>
+            <code>).<span class="rxjs-subscribe">subscribe</span>(...);</code>
             <div class="next">
             <code>...</code>
             <code>onDestroy() {</code>
-            <code>    subscription.<mark>unsubscribe();</mark></code>
+                <code>    subscription.<span class="rxjs-subscribe">unsubscribe</span>();</code>
             <code>}</code>
             </div>
         </pre>
@@ -1611,18 +1634,18 @@
     <h2 class="slide-header">Пример - автоотписка</h2>
     <div class="slide-description">
         <pre>
-            <code>const destroyStream = new Subject();</code>
+            <code>const destroy$ = new <span class="rxjs-creation">Subject</span>();</code>
             <div class="next">
-            <code>streamA$</code>
-            <code>    .map(...)</code>
-            <code>    .switchMap(...)</code>
-            <code>    .takeUntil(<mark>destroyStream</mark>)</code>
-            <code>    .subscribe()</code>
+            <code>streamA$.<span class="rxjs-pipe">pipe</span>(</code>
+            <code>    <span class="rxjs-operator">map</span>(...),</code>
+            <code>    <span class="rxjs-operator">switchMap</span>(...),</code>
+            <code>    <span class="rxjs-operator">takeUntil</span>(<mark>destroy$</mark>)</code>
+            <code>).<span class="rxjs-subscribe">subscribe</span>()</code>
             <code>...</code>
             </div>
             <div class="next">
             <code>onDestroy() {</code>
-            <code>    destroyStream.next();</code>
+            <code>    destroy$.<span class="rxjs-subscribe">next</span>();</code>
             <code>}</code>
             </div>
         </pre>
@@ -1635,11 +1658,11 @@
         <pre>
             <code>@Injectable()</code>
             <code>export class StateService {</code>
-            <code>  private <mark>authSubject</mark> = new BehaviorSubject&lt;boolean&gt;(false);</code>
+            <code>  private <mark>authSubject</mark> = new <span class="rxjs-creation">BehaviorSubject</span>&lt;boolean&gt;(false);</code>
             <div class="next">
             <code> </code>
-            <code>  setAuthState(<mark class="highlight next">state</mark>: boolean) {</code>
-                <code>    this.authSubject.<mark class="highlight next">next(state)</mark>;</code>
+            <code>  setAuthState(state: boolean) {</code>
+            <code>    this.authSubject.<span class="rxjs-subscribe">next</span>(state);</code>
             <code>  }</code>
             </div>
             <code>}</code>
@@ -1653,12 +1676,12 @@
         <pre>
             <code>@Injectable()</code>
             <code>export class StateService {</code>
-            <code>  private <mark>authSubject</mark> = new BehaviorSubject&lt;boolean&gt;(false);</code>
+            <code>  private <mark>authSubject</mark> = new <span class="rxjs-creation">BehaviorSubject</span>&lt;boolean&gt;(false);</code>
             <code>  setAuthState(state: boolean) {...}</code>
             <div class="next">
             <code> </code>
             <code>  getStateChange(): Observable&lt;AuthState&gt; {</code>
-            <code>    return this.authSubject.<mark class="highlight next">asObservable()</mark>;</code>
+            <code>    return this.authSubject.<span class="rxjs-subscribe">asObservable</span>();</code>
             <code>  }</code>
             </div>
             <code>}</code>
@@ -1672,13 +1695,13 @@
         <pre>
             <code>@Injectable()</code>
             <code>export class StateService {</code>
-            <code>  private <mark>authSubject</mark> = new BehaviorSubject&lt;boolean&gt;(false);</code>
+            <code>  private <mark>authSubject</mark> = new <span class="rxjs-creation">BehaviorSubject</span>&lt;boolean&gt;(false);</code>
             <code>  setAuthState(state: boolean) {...}</code>
             <code>  getStateChange(): Observable&lt;AuthState&gt; {...}</code>
             <code> </code>
             <div class="next">
             <code>  getCurrentState(): boolean {</code>
-            <code>    return this.authSubject.<mark class="highlight next">getValue()</mark>;</code>
+            <code>    return this.authSubject.<span class="rxjs-subscribe">getValue</span>();</code>
             <code>  }</code>
             </div>
             <code>}</code>
@@ -1696,19 +1719,19 @@
             <div class="next">
             <code>    if (!cachingSubject) {</code>
             <div class="next">
-            <code>      cachingSubject = new ReplaySubject(1);</code>
+            <code>      cachingSubject = new <span class="rxjs-creation">ReplaySubject</span>(1);</code>
             </div>
             <div class="next">
             <code> </code>
-            <code>      loadData().<mark class="highlight next">subscribe</mark>((result) => {</code>
-            <code>          this.cachingSubject.<mark class="highlight next">next(result);</mark></code>
+            <code>      loadData().<span class="rxjs-subscribe">subscribe</span>((result) => {</code>
+            <code>          this.cachingSubject.<span class="rxjs-subscribe">next</span>(result);</code>
             <code>        });</code>
             </div>
             <code>    }</code>
             </div>
             <div class="next">
             <code> </code>
-            <code>    return this.cachingSubject.asObservable();</code>
+            <code>    return this.cachingSubject.<span class="rxjs-subscribe">asObservable</span>();</code>
             </div>
             <code>}</code>
         </pre>
