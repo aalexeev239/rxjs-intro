@@ -1,5 +1,9 @@
 # RxJS: введение
 
+## **Важно: пожалуйста, оцените выступлениe**
+ 
+Анкета на 5 минут: [https://goo.gl/forms/zxr41nHXqcHxaict2](https://goo.gl/forms/zxr41nHXqcHxaict2)
+
 ## Cсылки
 
 ### Observable
