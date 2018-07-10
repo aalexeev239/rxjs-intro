@@ -1,3 +1,27 @@
+.rxjs-creation,
+.rxjs-operator,
+.rxjs-pipe,
+.rxjs-subscribe {
+    font-weight: 700;
+}
+
+.rxjs-creation {
+    color: #c62828;
+}
+
+.rxjs-pipe {
+    /*color: #283593;*/
+    color: #00695c;
+}
+
+.rxjs-operator {
+    color: #4f2c85;
+}
+
+.rxjs-subscribe {
+    color: #00695c;
+}
+
 .stachka .slide::before {
     display: none;
     background: none;
