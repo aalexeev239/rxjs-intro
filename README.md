@@ -1,10 +1,10 @@
-# RxJS – доступно, в деталях и на практике
+# RxJS: введение
 
-## Cсылки [Work In Progress]
+## Cсылки
 
 ### Observable
-
 - Введение в документацию [http://reactivex.io/rxjs/manual/overview.html](http://reactivex.io/rxjs/manual/overview.html)
+- Справочник операторов [https://www.learnrxjs.io/](https://www.learnrxjs.io/)
 - Понимание паттернов, из которых состоит Observable [http://anasfirdousi.com/understanding-observable-patterns-behind-observables-rxjs-rx.html](http://anasfirdousi.com/understanding-observable-patterns-behind-observables-rxjs-rx.html)
 
 ### Subjects и multicast
