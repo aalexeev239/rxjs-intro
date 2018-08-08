@@ -1,14 +1,10 @@
- ☐ перевести синтаксис на pipe
- ☐ проверить выкладку
- ☐ проверить ссылки
- ☐ тегнуть бранч
+ ✔ перевести синтаксис на pipe @done (18-07-10 15:52)
+ ✔ проверить выкладку @done (18-07-10 15:52)
+ ✔ проверить ссылки @done (18-07-10 15:52)
+ ✔ тегнуть бранч @done (18-07-10 15:52)
+
 бонусные слайды:
     ☐ тезис Observable – ленивый, Promise – энергичный
     ☐ тезис реактивность в Rx – это абстракция поверх императивных обратных вызовов
-    ☐ правила линтинга
-    ☐ redux-observables
-
-<span class="rxjs-creation">
-<span class="rxjs-pipe">
-<span class="rxjs-operator">
-<span class="rxjs-subscribe">
+    ☐ redux-observables https://redux-observable.js.org
+    ☐ правила линтинга https://www.npmjs.com/package/rxjs-tslint-rules
