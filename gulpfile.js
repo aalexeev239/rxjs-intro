@@ -165,7 +165,7 @@ gulp.task('serve', ['scripts'], () => {
     gulp.watch('index.html').on('change', () => {
         browserSync.reload();
     });
-    gulp.watch('custom/main.js', ['scripts']);
+    gulp.watch('custom/*.js', ['scripts']);
 });
 
 gulp.task('default', ['serve']);

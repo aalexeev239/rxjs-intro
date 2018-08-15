@@ -1,5 +1,8 @@
 import {of} from 'rxjs';
 import {delay, switchMap, takeUntil} from 'rxjs/operators';
+import {startDemo} from './startDemo';
+
+startDemo();
 
 let START = new Date();
 let isRunning = false;
