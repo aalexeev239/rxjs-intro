@@ -671,3 +671,8 @@
 .invisible-next.active + .after-invisible-next {
     display: none;
 }
+
+.margin-0,
+.slide .margin-0 {
+    margin: 0;
+}
