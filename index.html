@@ -1193,7 +1193,7 @@
     <small>
         <pre>
             <code>const streamA$ = <span class="rxjs-creation">Observable.create</span>((observer) => {</code>
-            <code>    observer.next;</mark></code>
+            <code>    observer.next(1);</mark></code>
             <code>    setTimeout(() => { observer.next(2);}, 2000);</code>
             <code>    setTimeout(() => { observer.next(3);}, 3000);</code>
             <code>    setTimeout(() => { observer.complete()}, 4000);</code>
