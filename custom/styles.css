@@ -148,6 +148,10 @@
     min-height: 144px;
 }
 
+.playground-compare .timeline{
+    margin-bottom: 50px;
+}
+
 .playground-clock .entry {
     animation: clock ease-in-out .15s;
     animation-iteration-count: 21;

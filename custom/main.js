@@ -147,12 +147,14 @@ function startStream(parentElement, input$, delayTime = 0) {
     return subscription;
 }
 
-function setSubjectTick1(subject) {
-    subject.next(0);
-    setTimeout(() => subject.next(1), 1000);
-    setTimeout(() => subject.next(2), 2000);
-    setTimeout(() => subject.next(3), 3000);
-    setTimeout(() => subject.next(4), 4000);
+function setSubjectTick(subject) {
+    const random = () => Math.random().toString().substr(2, 2);
+
+    subject.next(random());
+    setTimeout(() => subject.next(random()), 1000);
+    setTimeout(() => subject.next(random()), 2000);
+    setTimeout(() => subject.next(random()), 3000);
+    setTimeout(() => subject.next(random()), 4000);
     setTimeout(() => subject.complete(), 5000);
 }
 
@@ -220,5 +222,5 @@ window.logToOutput = logToOutput;
 window.logAllToOutput = logAllToOutput;
 window.fetchData = fetchData;
 window.TICK_MS = TICK_MS;
-window.setSubjectTick1 = setSubjectTick1;
+window.setSubjectTick = setSubjectTick;
 
