@@ -1,5 +1,9 @@
 # RxJS: введение
 
+## Видео
+
+[MoscowJS 42 – RxJS по косточкам](https://www.youtube.com/watch?v=3rEDHnqn-Cw)
+
 ## **Важно: пожалуйста, оцените выступлениe**
  
 Анкета на 5 минут: [https://goo.gl/forms/zxr41nHXqcHxaict2](https://goo.gl/forms/zxr41nHXqcHxaict2)
